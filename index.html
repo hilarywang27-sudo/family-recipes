@@ -1,0 +1,3226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#D2691E">
+    <meta name="description" content="Family Recipe Manager - Share and manage recipes with your family in real-time">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Recipe Manager">
+
+    <title>Family Recipe Manager</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" href="icons/icon-180.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="icons/icon-120.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="icons/icon-167.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180.png">
+    <link rel="apple-touch-startup-image" href="icons/icon-512.png">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #D2691E;
+            --primary-dark: #8B4513;
+            --primary-light: #E8A76B;
+            --secondary: #8B4513;
+            --accent: #FF6B6B;
+            --bg: #FAFAF8;
+            --bg-dark: #1A1A1A;
+            --text: #2C2C2C;
+            --text-light: #666;
+            --border: #E0E0E0;
+            --border-dark: #333;
+            --success: #4CAF50;
+            --warning: #FFC107;
+            --error: #F44336;
+            --card-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            --card-shadow-hover: 0 8px 16px rgba(0,0,0,0.15);
+        }
+
+        html.dark-mode {
+            --bg: #1A1A1A;
+            --bg-dark: #FAFAF8;
+            --text: #E8E8E8;
+            --text-light: #B0B0B0;
+            --border: #333;
+            --border-dark: #E0E0E0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Layout */
+        .container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            grid-template-rows: 60px 1fr;
+            height: 100vh;
+            gap: 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                grid-template-rows: 60px 1fr 60px;
+            }
+        }
+
+        /* Header */
+        .header {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: var(--card-shadow);
+            z-index: 100;
+            color: white;
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: 700;
+            flex: 1;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .icon-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.1);
+        }
+
+        .icon-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            grid-row: 2;
+            background: var(--bg);
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            padding: 15px 0;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+                grid-row: auto;
+                grid-column: auto;
+                position: fixed;
+                bottom: 60px;
+                top: 60px;
+                left: 0;
+                width: 250px;
+                z-index: 90;
+                border-right: 1px solid var(--border);
+                border-bottom: none;
+                max-height: calc(100vh - 120px);
+                background: var(--bg);
+            }
+
+            .sidebar.open {
+                display: block;
+            }
+        }
+
+        .sidebar-section {
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sidebar-section:last-child {
+            border-bottom: none;
+        }
+
+        .sidebar-title {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-light);
+            padding: 0 20px;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        .category-btn {
+            display: block;
+            width: 100%;
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            color: var(--text);
+            text-align: left;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .category-btn:hover {
+            background-color: rgba(210, 105, 30, 0.1);
+            padding-left: 24px;
+        }
+
+        .category-btn.active {
+            background: rgba(210, 105, 30, 0.15);
+            color: var(--primary);
+            font-weight: 600;
+            border-left: 3px solid var(--primary);
+            padding-left: 17px;
+        }
+
+        /* Main Content */
+        .main {
+            grid-column: 2;
+            grid-row: 2;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        @media (max-width: 768px) {
+            .main {
+                grid-column: 1;
+                grid-row: 2;
+            }
+        }
+
+        /* Toolbar */
+        .toolbar {
+            padding: 15px 20px;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 200px;
+            display: flex;
+            align-items: center;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 8px 12px;
+            gap: 8px;
+        }
+
+        html.dark-mode .search-box {
+            background: #2A2A2A;
+            border-color: var(--border);
+        }
+
+        .search-box input {
+            border: none;
+            background: none;
+            flex: 1;
+            font-size: 14px;
+            color: var(--text);
+        }
+
+        .search-box input::placeholder {
+            color: var(--text-light);
+        }
+
+        .search-box input:focus {
+            outline: none;
+        }
+
+        .toolbar-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .select, .btn {
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            background: white;
+            color: var(--text);
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        html.dark-mode .select,
+        html.dark-mode .btn {
+            background: #2A2A2A;
+            border-color: var(--border);
+            color: var(--text);
+        }
+
+        .btn:hover, .select:hover {
+            border-color: var(--primary);
+            background: rgba(210, 105, 30, 0.05);
+        }
+
+        .btn.primary {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .btn.primary:hover {
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+
+        .btn.secondary {
+            background: rgba(210, 105, 30, 0.1);
+            color: var(--primary);
+        }
+
+        /* Content Area */
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            align-content: start;
+        }
+
+        @media (max-width: 1024px) {
+            .content {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+                padding: 15px;
+                gap: 15px;
+            }
+        }
+
+        /* Recipe Card */
+        .recipe-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: var(--card-shadow);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary);
+            display: flex;
+            flex-direction: column;
+        }
+
+        html.dark-mode .recipe-card {
+            background: #2A2A2A;
+        }
+
+        .recipe-card:hover {
+            box-shadow: var(--card-shadow-hover);
+            transform: translateY(-4px);
+        }
+
+        .recipe-card.Biscuits { border-left-color: #FFB74D; }
+        .recipe-card.Breakfast { border-left-color: #FFA726; }
+        .recipe-card.Dessert { border-left-color: #EF5350; }
+        .recipe-card.Drinks { border-left-color: #29B6F6; }
+        .recipe-card.Sauce { border-left-color: #8BC34A; }
+        .recipe-card.Main { border-left-color: #D2691E; }
+        .recipe-card.Chinese { border-left-color: #AB47BC; }
+        .recipe-card.Christmas { border-left-color: #C41C3B; }
+        .recipe-card.Finger-Food { border-left-color: #FF7043; }
+
+        .recipe-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .recipe-card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text);
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        .recipe-card-category {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            background: rgba(210, 105, 30, 0.1);
+            color: var(--primary);
+            white-space: nowrap;
+        }
+
+        .recipe-card-info {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 12px;
+        }
+
+        .recipe-card-preview {
+            font-size: 13px;
+            color: var(--text);
+            margin-bottom: 12px;
+            flex: 1;
+        }
+
+        .recipe-card-preview strong {
+            color: var(--primary);
+            display: block;
+            margin-top: 6px;
+            margin-bottom: 4px;
+        }
+
+        .recipe-card-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: auto;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+        }
+
+        .recipe-card-actions button {
+            flex: 1;
+            padding: 6px 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: transparent;
+            color: var(--text);
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .recipe-card-actions button:hover {
+            background: rgba(210, 105, 30, 0.1);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Empty State */
+        .empty-state {
+            grid-column: 1 / -1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+
+        .empty-state-text {
+            color: var(--text-light);
+            margin-bottom: 20px;
+            max-width: 400px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.open {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background: var(--bg);
+            border-radius: 12px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Recipe Detail View */
+        .recipe-detail {
+            padding: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .recipe-detail {
+                padding: 20px;
+            }
+        }
+
+        .recipe-detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            gap: 15px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 20px;
+        }
+
+        .recipe-detail-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin: 0;
+            flex: 1;
+        }
+
+        .recipe-detail-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text);
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+
+        .recipe-detail-close:hover {
+            background: rgba(210, 105, 30, 0.1);
+        }
+
+        .recipe-detail-meta {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .recipe-detail-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        .recipe-detail-section {
+            margin-bottom: 30px;
+        }
+
+        .recipe-detail-section-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--text);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .recipe-detail-section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .ingredients-list {
+            list-style: none;
+        }
+
+        .ingredients-list li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            color: var(--text);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .ingredients-list li:last-child {
+            border-bottom: none;
+        }
+
+        .ingredients-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .steps-list {
+            list-style: none;
+        }
+
+        .steps-list li {
+            padding: 15px;
+            margin-bottom: 12px;
+            background: rgba(210, 105, 30, 0.05);
+            border-radius: 8px;
+            border-left: 3px solid var(--primary);
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .steps-list li::before {
+            content: attr(data-step);
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--primary);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .recipe-detail-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .recipe-detail-actions button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            font-size: 14px;
+        }
+
+        .recipe-detail-actions .btn-print {
+            background: var(--primary);
+            color: white;
+        }
+
+        .recipe-detail-actions .btn-edit {
+            background: var(--warning);
+            color: white;
+        }
+
+        .recipe-detail-actions .btn-delete {
+            background: var(--error);
+            color: white;
+        }
+
+        .recipe-detail-actions button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            color: var(--text);
+            background: white;
+        }
+
+        html.dark-mode .form-group input,
+        html.dark-mode .form-group select,
+        html.dark-mode .form-group textarea {
+            background: #2A2A2A;
+            border-color: var(--border);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(210, 105, 30, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-array-item {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: flex-end;
+        }
+
+        .form-array-item input {
+            flex: 1;
+        }
+
+        .form-array-item button {
+            padding: 8px 12px;
+            background: var(--error);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 30px;
+        }
+
+        .form-actions button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .form-actions .btn-submit {
+            background: var(--primary);
+            color: white;
+        }
+
+        .form-actions .btn-cancel {
+            background: var(--border);
+            color: var(--text);
+        }
+
+        .form-actions .btn-submit:hover {
+            background: var(--primary-dark);
+        }
+
+        .form-actions .btn-cancel:hover {
+            background: var(--border);
+        }
+
+        /* Bottom Navigation - hidden on desktop, shown on mobile */
+        .bottom-nav {
+            display: none;
+            grid-column: 1 / -1;
+            background: white;
+            border-top: 1px solid var(--border);
+            padding: 0;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+        }
+
+        html.dark-mode .bottom-nav {
+            background: #2A2A2A;
+        }
+
+        @media (max-width: 768px) {
+            .bottom-nav {
+                display: grid;
+                grid-row: 3;
+            }
+        }
+
+        .nav-item {
+            padding: 12px 10px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            color: var(--text-light);
+            text-align: center;
+            transition: all 0.2s ease;
+            border-top: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            color: var(--primary);
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+            border-top-color: var(--primary);
+        }
+
+        .nav-item-icon {
+            font-size: 20px;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background: #323232;
+            color: white;
+            padding: 16px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            z-index: 2000;
+            animation: slideInUp 0.3s ease;
+            max-width: 400px;
+        }
+
+        @media (max-width: 768px) {
+            .toast {
+                bottom: 100px;
+                right: 10px;
+                left: 10px;
+                max-width: none;
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Utilities */
+        .hidden {
+            display: none !important;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+            }
+
+            .header, .sidebar, .toolbar, .bottom-nav, .recipe-detail-close, .recipe-detail-actions {
+                display: none !important;
+            }
+
+            .recipe-detail {
+                padding: 0;
+            }
+
+            .recipe-detail-section {
+                page-break-inside: avoid;
+            }
+        }
+
+        /* Loading animation */
+        .spinner {
+            border: 3px solid rgba(210, 105, 30, 0.2);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Accessibility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Status indicator */
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 4px;
+        }
+
+        .status-indicator.online {
+            background: var(--success);
+        }
+
+        .status-indicator.offline {
+            background: var(--text-light);
+        }
+
+        .status-text {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-title">🍳 Family Recipes</div>
+            <div class="header-icons">
+                <button class="icon-btn" id="toggleSidebar" title="Toggle menu" style="display: none;">
+                    ☰
+                </button>
+                <button class="icon-btn" id="darkModeBtn" title="Toggle dark mode">
+                    🌙
+                </button>
+                <button class="icon-btn" id="settingsBtn" title="Settings">
+                    ⚙️
+                </button>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">Categories</div>
+                <button class="category-btn active" data-category="all">All Recipes</button>
+                <button class="category-btn" data-category="Breakfast">Breakfast</button>
+                <button class="category-btn" data-category="Main">Main</button>
+                <button class="category-btn" data-category="Dessert">Dessert</button>
+                <button class="category-btn" data-category="Biscuits">Biscuits</button>
+                <button class="category-btn" data-category="Sauce">Sauce</button>
+                <button class="category-btn" data-category="Drinks">Drinks</button>
+                <button class="category-btn" data-category="Finger Food">Finger Food</button>
+                <button class="category-btn" data-category="Chinese">Chinese</button>
+                <button class="category-btn" data-category="Christmas">Christmas</button>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Actions</div>
+                <button class="category-btn" id="addRecipeBtn">+ Add Recipe</button>
+                <button class="category-btn" id="importBtn">📥 Import</button>
+                <button class="category-btn" id="exportBtn">📤 Export</button>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Firebase Status</div>
+                <div style="padding: 0 20px; font-size: 13px;">
+                    <div class="status-text">
+                        <span class="status-indicator offline" id="firebaseStatus"></span>
+                        <span id="firebaseStatusText">Offline Mode</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main">
+            <div class="toolbar">
+                <div class="search-box">
+                    <span>🔍</span>
+                    <input type="text" id="searchInput" placeholder="Search recipes, ingredients...">
+                </div>
+                <div class="toolbar-controls">
+                    <select id="sortSelect" class="select">
+                        <option value="title-asc">Sort: A-Z</option>
+                        <option value="title-desc">Sort: Z-A</option>
+                        <option value="category">Sort: Category</option>
+                        <option value="date-desc">Sort: Newest First</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="content" id="recipeList">
+                <div class="empty-state">
+                    <div class="empty-state-icon">📚</div>
+                    <div class="empty-state-title">No recipes yet</div>
+                    <div class="empty-state-text">Start by adding a recipe or importing from a file</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-nav">
+            <button class="nav-item active" data-view="recipes">
+                <span class="nav-item-icon">📖</span>
+                <span>Recipes</span>
+            </button>
+            <button class="nav-item" data-view="add">
+                <span class="nav-item-icon">➕</span>
+                <span>Add</span>
+            </button>
+            <button class="nav-item" data-view="settings">
+                <span class="nav-item-icon">⚙️</span>
+                <span>Settings</span>
+            </button>
+            <button class="nav-item" data-view="about">
+                <span class="nav-item-icon">ℹ️</span>
+                <span>About</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal" id="recipeModal">
+        <div class="modal-content">
+            <div id="recipeDetailContainer"></div>
+        </div>
+    </div>
+
+    <div class="modal" id="editModal">
+        <div class="modal-content">
+            <div class="recipe-detail">
+                <h2>Edit Recipe</h2>
+                <form id="editRecipeForm">
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" id="editTitle" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select id="editCategory" required>
+                            <option value="Main">Main</option>
+                            <option value="Breakfast">Breakfast</option>
+                            <option value="Dessert">Dessert</option>
+                            <option value="Biscuits">Biscuits</option>
+                            <option value="Sauce">Sauce</option>
+                            <option value="Drinks">Drinks</option>
+                            <option value="Finger Food">Finger Food</option>
+                            <option value="Chinese">Chinese</option>
+                            <option value="Christmas">Christmas</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tags (comma-separated)</label>
+                        <input type="text" id="editTags">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ingredients</label>
+                        <div id="editIngredients"></div>
+                        <button type="button" class="btn secondary" id="addIngredientBtn" style="margin-top: 10px;">+ Add Ingredient</button>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Steps</label>
+                        <div id="editSteps"></div>
+                        <button type="button" class="btn secondary" id="addStepBtn" style="margin-top: 10px;">+ Add Step</button>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" id="editCancelBtn">Cancel</button>
+                        <button type="submit" class="btn-submit">Save Recipe</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <div class="recipe-detail">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                    <h2 style="margin: 0;">Settings</h2>
+                    <button class="recipe-detail-close" id="settingsCloseBtn">×</button>
+                </div>
+
+                <div class="form-group">
+                    <label>Firebase Config (paste your config JSON)</label>
+                    <textarea id="firebaseConfig" placeholder='{
+  "apiKey": "YOUR_API_KEY",
+  "authDomain": "your-app.firebaseapp.com",
+  "databaseURL": "https://your-app.firebaseio.com",
+  "projectId": "your-project",
+  "storageBucket": "your-app.appspot.com",
+  "messagingSenderId": "123456789",
+  "appId": "1:123456789:web:abc123def456"
+}'></textarea>
+                    <small style="color: var(--text-light); display: block; margin-top: 8px;">Get this from Firebase Console → Project Settings → Your Apps</small>
+                </div>
+
+                <button class="btn primary" id="saveFirebaseBtn" style="width: 100%; margin-top: 15px;">Save Firebase Config</button>
+                <button class="btn secondary" id="clearFirebaseBtn" style="width: 100%; margin-top: 10px;">Clear Firebase Config</button>
+
+                <hr style="margin: 30px 0; border: none; border-top: 1px solid var(--border);">
+
+                <div style="padding: 20px; background: rgba(210, 105, 30, 0.05); border-radius: 8px; margin-bottom: 20px;">
+                    <h3 style="margin-top: 0;">About this app</h3>
+                    <p style="margin: 10px 0; font-size: 13px;">Family Recipe Manager v1.0</p>
+                    <p style="margin: 10px 0; font-size: 13px;">A progressive web app for sharing family recipes with real-time sync</p>
+                    <p style="margin: 10px 0; font-size: 13px;">Works offline and installs like a native app</p>
+                </div>
+
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button class="btn secondary" id="exportAllBtn">📤 Export All Recipes</button>
+                    <button class="btn secondary" id="clearAllBtn">🗑️ Clear All Data</button>
+                </div>
+
+                <div class="form-actions" style="margin-top: 30px;">
+                    <button type="button" class="btn-cancel" id="settingsCloseBtnBottom">Done</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="file" id="importFile" accept=".json" style="display: none;">
+
+
+
+    <!-- Embedded Recipe Data -->
+    <script>
+    window.EMBEDDED_RECIPES = {
+  "recipes": [
+    {
+      "id": "chairman-mao-pork",
+      "title": "Chairman Mao Pork",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Dark Soy", "amount": "¼ cup"},
+        {"item": "Light Soy", "amount": "½ cup"},
+        {"item": "Shaoxing Wine", "amount": "½ cup"},
+        {"item": "Rock Sugar", "amount": "¼ cup"},
+        {"item": "Pork Belly", "amount": "500g-1kg"},
+        {"item": "Ginger", "amount": "5cm sliced"},
+        {"item": "Spring Onions", "amount": "2, sliced 3-4cm"}
+      ],
+      "steps": [
+        "Cut pork belly into 3.5x1.5cm pieces (easier if partially frozen)",
+        "Brown pork skin-side up in lightly oiled pan",
+        "Layer half ginger and spring onion in clay pot, add pork skin-side down",
+        "Add soy sauce, wine, and rock sugar",
+        "Add remaining ginger and spring onion, cover with water",
+        "Bring to boil on high heat, then simmer on low-medium for 30 minutes",
+        "Flip pork skin-side up and cover for another 30 minutes",
+        "Steam without lid for 45 minutes",
+        "Serve with rice"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-01-15",
+      "tags": ["chinese", "pork", "traditional"]
+    },
+    {
+      "id": "chive-boxes",
+      "title": "Chive Boxes (Jiu Cai He Zi 韭菜盒子)",
+      "category": "Main",
+      "ingredients": [
+        {"item": "All-purpose flour", "amount": "500g"},
+        {"item": "Cold water", "amount": "As needed"},
+        {"item": "Pork mince", "amount": "300g"},
+        {"item": "Shrimp", "amount": "100g"},
+        {"item": "Fresh Chinese chives", "amount": "200g"},
+        {"item": "Large scallions", "amount": "3"},
+        {"item": "Minced ginger", "amount": "1 tbsp"},
+        {"item": "Soy sauce", "amount": "3 tbsp"},
+        {"item": "Pepper powder", "amount": "3g"},
+        {"item": "Seasoning powder", "amount": "2g"},
+        {"item": "Sesame oil", "amount": "1 tbsp"},
+        {"item": "Oil", "amount": "2 tbsp"}
+      ],
+      "steps": [
+        "Mix flour with cold water, rest 10 minutes, then knead until smooth",
+        "Fry scallions in oil until golden brown",
+        "Pour soy sauce into hot scallion oil and set aside",
+        "Clean shrimp and soak in scallion-ginger water",
+        "Mix pork with cooled soy-oil mixture, ginger, pepper, and seasoning",
+        "Add shrimp and chives to pork mixture, stir in sesame oil",
+        "Divide dough into 60g pieces and roll into 12cm circles",
+        "Fill each circle with mixture, seal edges, and pleat",
+        "Gently flatten with rolling pin",
+        "Pan fry until puffed and golden on both sides"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-01-16",
+      "tags": ["chinese", "dumplings", "pork"]
+    },
+    {
+      "id": "chicken-butter-beans-spinach",
+      "title": "Chicken with Butter Beans and Spinach",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Chicken", "amount": "1 jointed (or 2 breasts/4 thighs/4 drumsticks)"},
+        {"item": "Olive oil", "amount": "1 tbsp"},
+        {"item": "Garlic head", "amount": "1, halved"},
+        {"item": "Leek", "amount": "1, sliced"},
+        {"item": "White wine", "amount": "200ml"},
+        {"item": "Chicken stock", "amount": "400ml"},
+        {"item": "Thyme sprigs", "amount": "2"},
+        {"item": "Canned butter beans", "amount": "2x400g"},
+        {"item": "Baby spinach", "amount": "250g"},
+        {"item": "Salt and pepper", "amount": "To taste"}
+      ],
+      "steps": [
+        "Preheat oven to 180°C",
+        "Season and brown chicken pieces in oil",
+        "Add garlic cut-side down and sliced leeks",
+        "Add white wine and bubble for 2 minutes",
+        "Pour in stock and add thyme sprigs",
+        "Add drained butter beans and spinach, season to taste",
+        "Bake covered for 35-40 minutes until chicken is cooked",
+        "Rest for 5 minutes before serving"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-12-01",
+      "tags": ["christmas", "chicken", "italian"]
+    },
+    {
+      "id": "slow-roast-pork-belly-fennel",
+      "title": "Slow-Roast Pork Belly with Fennel",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Pork belly", "amount": "1kg"},
+        {"item": "Salt and pepper", "amount": "To taste"},
+        {"item": "Fennel bulb", "amount": "1, sliced"},
+        {"item": "Bay leaves", "amount": "4"},
+        {"item": "Garlic cloves", "amount": "3"},
+        {"item": "Cardamom pods", "amount": "1 tsp"},
+        {"item": "Star anise", "amount": "4"},
+        {"item": "Fennel seeds", "amount": "1 tbsp"},
+        {"item": "Olive oil", "amount": "2 tbsp"},
+        {"item": "White wine", "amount": "325ml"},
+        {"item": "Chicken stock", "amount": "500-750ml"},
+        {"item": "Wholegrain mustard", "amount": "1 tbsp"}
+      ],
+      "steps": [
+        "Preheat oven to 180°C",
+        "Score pork belly in diamond pattern and season generously",
+        "Heat fennel and spices in roasting tray",
+        "Brown pork skin-side down for 5 minutes",
+        "Flip, season, and add fennel seeds",
+        "Deglaze pan with white wine",
+        "Add stock until it reaches the fat line",
+        "Roast for 2.5 hours until tender",
+        "Rest meat for 10 minutes",
+        "Make gravy by whisking mustard into pan juices"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-12-02",
+      "tags": ["christmas", "pork", "festive"]
+    },
+    {
+      "id": "lemongrass-prawns-zucchini",
+      "title": "Lemongrass Prawns with Zucchini Salad",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Fresh lemongrass", "amount": "1 tbsp"},
+        {"item": "Fresh ginger", "amount": "2 tsp"},
+        {"item": "Garlic clove", "amount": "1"},
+        {"item": "Red chilli", "amount": "1"},
+        {"item": "Lime juice", "amount": "¼ cup"},
+        {"item": "Fresh coriander", "amount": "1 tbsp"},
+        {"item": "Olive oil", "amount": "1 tbsp"},
+        {"item": "Prawns", "amount": "750g"},
+        {"item": "Soy sauce", "amount": "1 tbsp"},
+        {"item": "Sesame oil", "amount": "¼ tsp"},
+        {"item": "Zucchini", "amount": "2, made into noodles"},
+        {"item": "Fresh mint", "amount": "½ cup"},
+        {"item": "Cucumber", "amount": "1, julienned"},
+        {"item": "Carrot", "amount": "1, julienned"},
+        {"item": "Spring onions", "amount": "2, sliced"}
+      ],
+      "steps": [
+        "Combine lemongrass, ginger, garlic, chilli, lime juice, coriander, and olive oil",
+        "Add prawns and marinate for 15-30 minutes",
+        "Cook prawns on hot grill or pan for 1-2 minutes each side",
+        "Toss all salad ingredients together",
+        "Serve prawns over salad"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-12-03",
+      "tags": ["christmas", "seafood", "fresh"]
+    },
+    {
+      "id": "chilli-crab",
+      "title": "Chilli Crab",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Blue swimmer crabs", "amount": "3"},
+        {"item": "Peanut oil", "amount": "2 tbsp"},
+        {"item": "Red onion", "amount": "½"},
+        {"item": "Red chillies", "amount": "2"},
+        {"item": "Garlic cloves", "amount": "2"},
+        {"item": "Fresh ginger", "amount": "2cm"},
+        {"item": "Spring onions", "amount": "2"},
+        {"item": "Ripe tomatoes", "amount": "3"},
+        {"item": "Rice wine", "amount": "2 tbsp"},
+        {"item": "Brown sugar", "amount": "1 tbsp"},
+        {"item": "Kecap manis", "amount": "1 tbsp"},
+        {"item": "Kaffir lime leaves", "amount": "3"},
+        {"item": "Fresh coriander", "amount": "For garnish"}
+      ],
+      "steps": [
+        "Cut each crab into 6 pieces and crack shells",
+        "Heat oil and stir-fry onion, chilli, garlic, ginger, and spring onion for 1 minute",
+        "Add crab pieces and toss to coat",
+        "Add tomato, rice wine, sugar, and kecap manis",
+        "Cover and steam for 4 minutes",
+        "Serve with kaffir lime leaves and fresh coriander"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-12-04",
+      "tags": ["christmas", "seafood", "chinese", "asian"]
+    },
+    {
+      "id": "egg-mushroom-tarts",
+      "title": "Egg and Mushroom Puff Pastry Tarts",
+      "category": "Breakfast",
+      "ingredients": [
+        {"item": "Puff pastry sheets", "amount": "2"},
+        {"item": "Eggs", "amount": "8"},
+        {"item": "Red onion", "amount": "½"},
+        {"item": "Cherry tomatoes", "amount": "150g"},
+        {"item": "Parmesan cheese", "amount": "⅓ cup grated"},
+        {"item": "Olive oil", "amount": "1 tbsp"},
+        {"item": "Button mushrooms", "amount": "200g"},
+        {"item": "Swiss brown mushrooms", "amount": "200g"},
+        {"item": "Basil pesto", "amount": "⅓ cup"},
+        {"item": "Baby rocket", "amount": "Handful"}
+      ],
+      "steps": [
+        "Preheat oven to 220°C",
+        "Cut pastry into 4 rectangles and fold borders up slightly",
+        "Prick pastry bases with fork",
+        "Crack 2 eggs into each tart, top with onion, tomato, and parmesan",
+        "Bake for 15 minutes until eggs are set and pastry is golden",
+        "While baking, sauté mushrooms in olive oil for 5 minutes",
+        "Serve tarts topped with mushrooms, a dollop of pesto, and rocket"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-12-05",
+      "tags": ["christmas", "breakfast", "vegetarian"]
+    },
+    {
+      "id": "berry-sheet-pancake",
+      "title": "Berry Sheet Pancake",
+      "category": "Breakfast",
+      "ingredients": [
+        {"item": "All-purpose flour", "amount": "2 cups"},
+        {"item": "Caster sugar", "amount": "⅓ cup"},
+        {"item": "Bicarbonate of soda", "amount": "½ tsp"},
+        {"item": "Buttermilk", "amount": "1½ cups"},
+        {"item": "Egg", "amount": "1"},
+        {"item": "Vanilla extract", "amount": "2 tsp"},
+        {"item": "Butter", "amount": "50g melted"},
+        {"item": "Raspberries", "amount": "150g"},
+        {"item": "Strawberries", "amount": "150g"},
+        {"item": "Blueberries", "amount": "150g"},
+        {"item": "Icing sugar", "amount": "For dusting"},
+        {"item": "Cream", "amount": "For serving"},
+        {"item": "Golden syrup", "amount": "For drizzling"}
+      ],
+      "steps": [
+        "Preheat oven to 200°C",
+        "Whisk together dry ingredients: flour, sugar, bicarb soda",
+        "Whisk together wet ingredients: buttermilk, egg, vanilla, melted butter",
+        "Combine wet and dry ingredients until just mixed",
+        "Butter a large tray and spread batter evenly",
+        "Top with half the berries and dot with butter",
+        "Bake for 10 minutes until golden",
+        "Flash grill for 1-2 minutes until slightly crispy",
+        "Dust with icing sugar, serve with remaining berries, cream, and syrup"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-12-06",
+      "tags": ["christmas", "breakfast", "dessert"]
+    },
+    {
+      "id": "char-siu-bao",
+      "title": "Char Siu Bao (BBQ Pork Buns)",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Instant yeast", "amount": "1 tsp"},
+        {"item": "Warm water", "amount": "¼ cup + ½ cup"},
+        {"item": "Sugar", "amount": "1 tbsp + 4 tbsp"},
+        {"item": "All-purpose flour", "amount": "2 cups"},
+        {"item": "Cornflour", "amount": "1 cup"},
+        {"item": "Vegetable oil", "amount": "¼ cup"},
+        {"item": "Baking powder", "amount": "2½ tsp"},
+        {"item": "Peanut oil", "amount": "1 tbsp"},
+        {"item": "Eschalots", "amount": "⅓ cup chopped"},
+        {"item": "Soy sauce", "amount": "1½ tbsp"},
+        {"item": "Oyster sauce", "amount": "1½ tbsp"},
+        {"item": "Sesame oil", "amount": "1 tbsp"},
+        {"item": "Water for filling", "amount": "½ cup"},
+        {"item": "Cornflour slurry", "amount": "As needed"},
+        {"item": "Char siu pork", "amount": "1½ cups chopped"}
+      ],
+      "steps": [
+        "Activate yeast: mix with ¼ cup water, 1 tbsp sugar, let sit 10 minutes",
+        "Mix dough: flour, cornflour, 4 tbsp sugar, combine with yeast mixture and ½ cup water",
+        "Add oil and knead in stand mixer for 3 minutes",
+        "Let dough rise for 2 hours until doubled",
+        "Add baking powder and mix gently",
+        "Prepare filling: fry eschalots in oil, add soy/oyster/sesame sauces and water, thicken with cornflour slurry, add char siu",
+        "Divide dough into 12 pieces",
+        "Roll each into 11cm circle, place 1½ tbsp filling in center",
+        "Pleat and seal edges, place pleated-side up on parchment squares",
+        "Rest 15 minutes",
+        "Steam for 12 minutes"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-01-18",
+      "tags": ["chinese", "pork", "dim-sum", "bread"]
+    },
+    {
+      "id": "wild-mushroom-toast",
+      "title": "Wild Mushroom Toast",
+      "category": "Finger Food",
+      "ingredients": [
+        {"item": "Olive oil", "amount": "2 tbsp"},
+        {"item": "Mixed mushrooms", "amount": "500g"},
+        {"item": "Salt and pepper", "amount": "To taste"},
+        {"item": "Red chilli", "amount": "1"},
+        {"item": "Fresh parsley", "amount": "¼ cup"},
+        {"item": "Ricotta cheese", "amount": "½ cup"},
+        {"item": "Spreadable cheese", "amount": "½ cup"},
+        {"item": "Baguette slices", "amount": "4"}
+      ],
+      "steps": [
+        "Cook mushrooms in batches in hot oil until golden, season with salt and pepper",
+        "Sauté finely chopped chilli and toss with mushrooms and parsley",
+        "Combine ricotta and spreadable cheese",
+        "Spread cheese mixture on toasted baguette slices",
+        "Top with mushroom mixture and serve"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-12-07",
+      "tags": ["christmas", "finger-food", "vegetarian", "appetizer"]
+    },
+    {
+      "id": "lobster-salad-saffron",
+      "title": "Lobster Salad with Saffron Dressing",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Hot water", "amount": "1 tbsp"},
+        {"item": "Saffron threads", "amount": "¼ tsp"},
+        {"item": "Mayonnaise", "amount": "½ cup"},
+        {"item": "Lemon juice", "amount": "1 tbsp"},
+        {"item": "Horseradish cream", "amount": "2 tsp"},
+        {"item": "Mustard powder", "amount": "½ tsp"},
+        {"item": "Salt and pepper", "amount": "To taste"},
+        {"item": "Asparagus", "amount": "1 bunch"},
+        {"item": "Cos lettuce", "amount": "2 heads"},
+        {"item": "Grape tomatoes", "amount": "200g"},
+        {"item": "Avocado", "amount": "1"},
+        {"item": "Red onion", "amount": "½"},
+        {"item": "Thai basil", "amount": "Handful"},
+        {"item": "Cooked lobsters", "amount": "2"}
+      ],
+      "steps": [
+        "Infuse saffron in hot water for 5 minutes",
+        "Mix saffron liquid with mayonnaise, lemon juice, horseradish, and mustard",
+        "Cook asparagus until tender-crisp, about 2 minutes",
+        "Toss salad greens, tomatoes, avocado, onion, and herbs",
+        "Top salad with fresh lobster meat",
+        "Drizzle with saffron dressing and serve"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-12-08",
+      "tags": ["christmas", "seafood", "elegant"]
+    },
+    {
+      "id": "spinach-gruyere-potato-casserole",
+      "title": "Spinach & Gruyère Potato Casserole",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Red potatoes", "amount": "650g"},
+        {"item": "Olive oil", "amount": "2 tbsp"},
+        {"item": "Eggs", "amount": "4"},
+        {"item": "Half-and-half cream", "amount": "¼ cup"},
+        {"item": "Gruyère cheese", "amount": "2 cups grated"},
+        {"item": "Fresh basil", "amount": "¼ cup"},
+        {"item": "Fresh parsley", "amount": "¼ cup"},
+        {"item": "Garlic cloves", "amount": "3"},
+        {"item": "Fresh spinach", "amount": "3 cups"},
+        {"item": "Fennel bulbs", "amount": "2"}
+      ],
+      "steps": [
+        "Preheat oven to 230°C",
+        "Toss potatoes and fennel with oil, roast 20-25 minutes",
+        "Whisk eggs, cream, cheese, basil, and parsley together",
+        "Mince garlic and combine with roasted vegetables and spinach",
+        "Fold into egg mixture",
+        "Pour into baking dish, cover with foil",
+        "Bake for 30-35 minutes covered",
+        "Uncover and bake 5 minutes until set"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-12-09",
+      "tags": ["christmas", "vegetarian", "main-dish"]
+    },
+    {
+      "id": "bbq-prawns-mango-mayo",
+      "title": "BBQ Prawns with Mango Mayonnaise",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Large prawns", "amount": "1.5kg"},
+        {"item": "Olive oil", "amount": "1 tbsp"},
+        {"item": "Red chilli", "amount": "1"},
+        {"item": "Fresh ginger", "amount": "2 tsp"},
+        {"item": "Fresh coriander", "amount": "1 tbsp"},
+        {"item": "Fresh lemongrass", "amount": "1½ tbsp"},
+        {"item": "Ripe mango", "amount": "1"},
+        {"item": "Birdseye chilli", "amount": "1"},
+        {"item": "Wholegrain mustard", "amount": "1 tsp"},
+        {"item": "Egg yolk", "amount": "1"},
+        {"item": "Vegetable oil", "amount": "½ cup"},
+        {"item": "Lime juice", "amount": "2 tsp"}
+      ],
+      "steps": [
+        "Prepare marinade with chilli, ginger, coriander, lemongrass, and oil",
+        "Marinate prawns for 15 minutes",
+        "Blend mango with birdseye chilli, mustard, and egg yolk",
+        "Slowly whisk in vegetable oil to emulsify",
+        "Finish mango mayo with lime juice",
+        "BBQ prawns for 1-2 minutes each side",
+        "Serve with mango mayonnaise"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-12-10",
+      "tags": ["christmas", "seafood", "bbq"]
+    },
+    {
+      "id": "cheesy-baked-asparagus",
+      "title": "Cheesy Baked Asparagus",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Fresh asparagus", "amount": "1kg"},
+        {"item": "Heavy cream", "amount": "¾ cup"},
+        {"item": "Garlic cloves", "amount": "3, minced"},
+        {"item": "Salt and pepper", "amount": "To taste"},
+        {"item": "Grated parmesan", "amount": "1 cup"},
+        {"item": "Grated mozzarella", "amount": "1 cup"},
+        {"item": "Red pepper flakes", "amount": "To taste"}
+      ],
+      "steps": [
+        "Preheat oven to 200°C",
+        "Layer asparagus spears in baking dish",
+        "Pour cream over and scatter minced garlic",
+        "Season with salt and pepper",
+        "Top with combined parmesan and mozzarella",
+        "Sprinkle with red pepper flakes",
+        "Bake for 25-30 minutes until asparagus is tender and cheese is bubbly"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-12-11",
+      "tags": ["christmas", "vegetarian", "side-dish"]
+    },
+    {
+      "id": "chicken-prosciutto-panzanella",
+      "title": "Chicken and Prosciutto Panzanella",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Ciabatta rolls", "amount": "2"},
+        {"item": "Garlic olive oil", "amount": "For drizzling"},
+        {"item": "Fresh rosemary", "amount": "2 sprigs"},
+        {"item": "Chicken breasts", "amount": "3"},
+        {"item": "Radicchio", "amount": "½ head"},
+        {"item": "Ripe tomatoes", "amount": "3"},
+        {"item": "English cucumber", "amount": "1"},
+        {"item": "Red onion", "amount": "½"},
+        {"item": "Prosciutto", "amount": "6-8 slices"},
+        {"item": "Fresh basil", "amount": "Handful"},
+        {"item": "Red wine vinegar", "amount": "3 tbsp"},
+        {"item": "Extra virgin olive oil", "amount": "½ cup"},
+        {"item": "Baby capers", "amount": "1 tbsp"},
+        {"item": "Dijon mustard", "amount": "½ tsp"}
+      ],
+      "steps": [
+        "Toast ciabatta for 15 minutes, drizzle with garlic oil, rub with rosemary",
+        "Season and cook chicken breasts for 5 minutes each side, rest and slice",
+        "Make vinaigrette by whisking vinegar, oil, capers, and mustard",
+        "Roughly chop toasted bread and toss vegetables",
+        "Combine salad, bread, chicken, and prosciutto",
+        "Dress with vinaigrette and fresh basil"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-12-12",
+      "tags": ["christmas", "salad", "chicken"]
+    },
+    {
+      "id": "mud-crab-chilli-sauce",
+      "title": "Mud Crab with Chilli Sauce",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Peanut oil", "amount": "¼ cup"},
+        {"item": "Mud crab", "amount": "1"},
+        {"item": "Salt", "amount": "¼ tsp"},
+        {"item": "Tomato passata", "amount": "1 cup"},
+        {"item": "Fish or chicken stock", "amount": "1 cup"},
+        {"item": "Palm sugar", "amount": "2 tbsp"},
+        {"item": "Rice vinegar", "amount": "1 tbsp"},
+        {"item": "Soy sauce", "amount": "1 tbsp"},
+        {"item": "Spring onions", "amount": "3"},
+        {"item": "Cornflour slurry", "amount": "As needed"},
+        {"item": "Egg", "amount": "1"},
+        {"item": "Fresh coriander", "amount": "For garnish"},
+        {"item": "Red chillies", "amount": "For garnish"},
+        {"item": "Red onion", "amount": "1"},
+        {"item": "Garlic cloves", "amount": "4"},
+        {"item": "Red chillies", "amount": "6"}
+      ],
+      "steps": [
+        "Prepare crab by cutting into serving pieces and cracking shells",
+        "Blend paste: red onion, garlic, and red chillies",
+        "Heat oil and fry paste for 5 minutes until fragrant",
+        "Add crab pieces and toss to coat",
+        "Add passata, stock, palm sugar, vinegar, and soy sauce",
+        "Simmer for 10 minutes, covered",
+        "Thicken with cornflour slurry if needed",
+        "Temper with beaten egg by slowly pouring in while stirring",
+        "Garnish with spring onions, coriander, and chillies"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-12-13",
+      "tags": ["christmas", "seafood", "chinese", "asian"]
+    },
+    {
+      "id": "red-curry-sea-bass",
+      "title": "Red Curry Sea Bass",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Spring onions", "amount": "4"},
+        {"item": "Fresh coriander", "amount": "1 bunch"},
+        {"item": "Whole sea bass", "amount": "2"},
+        {"item": "Thai red curry paste", "amount": "2 tbsp"},
+        {"item": "Lime", "amount": "2"}
+      ],
+      "steps": [
+        "Shred spring onions lengthwise and crisp in ice water",
+        "Score fish on both sides and rub with curry paste",
+        "Stuff cavity with fresh coriander stalks",
+        "Fry fish for 3-4 minutes on each side until skin is crispy",
+        "Serve with lime wedges and crispy spring onions"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-12-14",
+      "tags": ["christmas", "seafood", "thai"]
+    },
+    {
+      "id": "chinese-garlic-chive-pancake",
+      "title": "Chinese Garlic Chive Pancake",
+      "category": "Main",
+      "ingredients": [
+        {"item": "All-purpose flour", "amount": "250g"},
+        {"item": "Lukewarm water", "amount": "175ml (ratio 1:0.7)"},
+        {"item": "Pork mince", "amount": "200g"},
+        {"item": "Prawns", "amount": "100g (optional)"},
+        {"item": "Spring onion whites", "amount": "2"},
+        {"item": "Chinese garlic chives", "amount": "200g"},
+        {"item": "Soy sauce", "amount": "3 tbsp"},
+        {"item": "Sesame oil", "amount": "1 tbsp"},
+        {"item": "Minced ginger", "amount": "1 tbsp"},
+        {"item": "Spring onion greens", "amount": "1 tbsp chopped"},
+        {"item": "Oil", "amount": "For pan frying"}
+      ],
+      "steps": [
+        "Fry spring onion whites in oil until brown and fragrant",
+        "Add soy sauce to hot oil and set aside for garnish",
+        "Make dough with flour and lukewarm water, rest 10 minutes",
+        "Season pork mince with ginger, spring onion greens, and soy sauce",
+        "Add chopped garlic chives and sesame oil to pork",
+        "Roll out 60g dough pieces into 12cm circles",
+        "Fill with 1½ tbsp pork mixture, seal edges tightly",
+        "Gently flatten with rolling pin",
+        "Pan fry on medium-high heat until golden and puffy on both sides"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-01-19",
+      "tags": ["chinese", "pork", "savory"]
+    },
+    {
+      "id": "chinese-stew-beef-potato",
+      "title": "Chinese Stew Beef and Potato",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Beef brisket", "amount": "800g"},
+        {"item": "Spring onions", "amount": "3"},
+        {"item": "Garlic cloves", "amount": "4"},
+        {"item": "Fresh ginger", "amount": "5cm"},
+        {"item": "Dried orange peel", "amount": "1 piece"},
+        {"item": "Cao guo (brown cardamom)", "amount": "1"},
+        {"item": "Bai zhi (angelica sinensis)", "amount": "½ tsp"},
+        {"item": "Cinnamon stick", "amount": "1"},
+        {"item": "Star anise", "amount": "2"},
+        {"item": "Dried red chillies", "amount": "2"},
+        {"item": "Black bean sauce", "amount": "2 tbsp"},
+        {"item": "Yellow bean sauce", "amount": "1 tbsp"},
+        {"item": "White vinegar", "amount": "1 tbsp"},
+        {"item": "Rock sugar", "amount": "1 piece"},
+        {"item": "Cooking wine", "amount": "3 tbsp"},
+        {"item": "Green peppers", "amount": "4"},
+        {"item": "Potatoes", "amount": "3 medium"},
+        {"item": "Carrots", "amount": "2"},
+        {"item": "Dark soy sauce", "amount": "2 tbsp"},
+        {"item": "Light soy sauce", "amount": "1 tbsp"},
+        {"item": "Onion", "amount": "½"}
+      ],
+      "steps": [
+        "Blanch beef brisket in cold water with spring onion, orange peel, and vinegar until foamy, then drain and rinse",
+        "Fry rock sugar in a pot until caramelized",
+        "Add dried aromatics, garlic, ginger, and beef, stir until beef is colored with dark soy",
+        "Add cooking wine and enough water to cover",
+        "Pressure cook for 45 minutes until tender",
+        "Make bean sauce by frying black bean sauce and yellow bean sauce",
+        "Combine sauce with beef and cook another 20 minutes in pressure cooker",
+        "Strain cooking liquid, return beef and sauce to pot",
+        "Air fry potatoes and carrots until cooked",
+        "Add potatoes and carrots, simmer until sauce is sticky",
+        "Add green pepper at the end",
+        "Serve in clay pot, garnish with sliced onion"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-01-20",
+      "tags": ["chinese", "beef", "stew"]
+    },
+    {
+      "id": "chinese-stew-tofu",
+      "title": "Chinese Stew Tofu",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Firm tofu", "amount": "400g"},
+        {"item": "Fresh ginger", "amount": "3cm slice"},
+        {"item": "Spring onions", "amount": "3"},
+        {"item": "Pork lard", "amount": "1 tbsp"},
+        {"item": "Chicken fat", "amount": "1 tbsp"},
+        {"item": "Light soy sauce", "amount": "2 tbsp"},
+        {"item": "Cooking wine (黄酒)", "amount": "2 tbsp"},
+        {"item": "Oyster sauce", "amount": "1 tbsp"},
+        {"item": "Sugar", "amount": "½ tsp"},
+        {"item": "White pepper powder", "amount": "¼ tsp"},
+        {"item": "Star anise", "amount": "1"},
+        {"item": "Water or soup stock", "amount": "1 cup"}
+      ],
+      "steps": [
+        "Break tofu into irregular pieces by hand",
+        "Stir fry ginger and spring onion in pork lard and chicken fat until fragrant",
+        "Add star anise",
+        "Add light soy sauce until fragrant",
+        "Add cooking wine",
+        "Add water or soup stock",
+        "Add oyster sauce",
+        "Add sugar and white pepper",
+        "Add tofu pieces",
+        "Bring to boil then simmer gently for 30 minutes",
+        "Serve hot"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-01-21",
+      "tags": ["chinese", "tofu", "vegetarian"]
+    },
+    {
+      "id": "winter-black-rice-drink",
+      "title": "Winter Black Rice Drink",
+      "category": "Drinks",
+      "ingredients": [
+        {"item": "Black glutinous rice", "amount": "¼ cup"},
+        {"item": "Water", "amount": "800ml"},
+        {"item": "Red dates (pitted)", "amount": "6-8"},
+        {"item": "Rock sugar", "amount": "20g"},
+        {"item": "Rolled oatmeal", "amount": "¼ cup"},
+        {"item": "Mixed nuts", "amount": "¼ cup (walnuts, pumpkin seeds)"}
+      ],
+      "steps": [
+        "Boil black glutinous rice in 800ml water for 30 minutes",
+        "Add pitted red dates and rock sugar",
+        "Cook for 5 more minutes",
+        "Add more water if needed for desired consistency",
+        "Add oatmeal",
+        "Blend in food processor until smooth or chunky as preferred",
+        "Add nuts and serve warm"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-01-22",
+      "tags": ["chinese", "drinks", "health", "winter"]
+    },
+    {
+      "id": "chinese-beef-tendon",
+      "title": "Chinese-Style Beef Tendon",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Beef tendons", "amount": "1kg"},
+        {"item": "Cinnamon stick", "amount": "1"},
+        {"item": "Star anise", "amount": "5"},
+        {"item": "Bay leaves", "amount": "2"},
+        {"item": "Sichuan peppercorns", "amount": "1 tbsp"},
+        {"item": "Soy sauce", "amount": "½ cup"},
+        {"item": "Dark soy sauce", "amount": "¼ cup"},
+        {"item": "Rock sugar", "amount": "3 tbsp"},
+        {"item": "Fresh ginger", "amount": "5cm sliced"},
+        {"item": "Spring onions", "amount": "4"},
+        {"item": "Dried red chillies", "amount": "2"},
+        {"item": "Cooking wine", "amount": "1 tbsp"},
+        {"item": "Chilli oil", "amount": "For serving"},
+        {"item": "Vinegar", "amount": "For serving"},
+        {"item": "Fried garlic", "amount": "For garnish"}
+      ],
+      "steps": [
+        "Blanch beef tendons in boiling water until surface is clean",
+        "Slow cook with all spices and sauces for 8 hours, or pressure cook until very tender, or cook in clay pot in oven for 12 hours at low temperature",
+        "Remove tendons from cooking broth",
+        "Slice when cooled to room temperature",
+        "Mix remaining stock with vinegar, chilli oil, and soy sauce",
+        "Serve tendons at room temperature or reheat in oven for a few minutes",
+        "Pour sauce over top and garnish with fried garlic and scallions"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-01-23",
+      "tags": ["chinese", "beef", "delicacy"]
+    },
+    {
+      "id": "cherry-almond-biscuits",
+      "title": "Cherry Almond Biscuits",
+      "category": "Biscuits",
+      "ingredients": [
+        {"item": "Ground almonds", "amount": "500g"},
+        {"item": "Caster sugar", "amount": "350g"},
+        {"item": "Icing sugar", "amount": "150g"},
+        {"item": "Egg whites", "amount": "5, lightly beaten"},
+        {"item": "Vanilla essence", "amount": "3 drops"},
+        {"item": "Almond essence", "amount": "3 drops"},
+        {"item": "Glacé cherries", "amount": "150g halved"}
+      ],
+      "steps": [
+        "Preheat oven to 180°C",
+        "Mix egg whites, ground almonds, caster sugar, vanilla essence, and almond essence",
+        "Roll mixture into walnut-sized balls",
+        "Coat each ball in icing sugar",
+        "Flatten slightly and place on lined baking tray",
+        "Top each with a cherry half",
+        "Bake for 7-10 minutes until set but still soft"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-02-01",
+      "tags": ["italian", "cookies", "almond", "biscuits"]
+    },
+    {
+      "id": "cheese-biscuits",
+      "title": "Cheese Biscuits",
+      "category": "Biscuits",
+      "ingredients": [
+        {"item": "Plain flour", "amount": "1½ cups"},
+        {"item": "Grated parmesan", "amount": "½ cup"},
+        {"item": "Grated vintage cheddar", "amount": "½ cup"},
+        {"item": "Chilled butter", "amount": "125g cubed"},
+        {"item": "Paprika", "amount": "½ tsp"},
+        {"item": "Salt", "amount": "½ tsp"},
+        {"item": "Fresh rosemary", "amount": "½ tsp (optional)"},
+        {"item": "Salt and pepper", "amount": "For dusting"}
+      ],
+      "steps": [
+        "Process butter, cheese, flour, paprika, salt, and rosemary in food processor until mixture resembles breadcrumbs",
+        "Form into a ball and divide in half",
+        "Shape each half into a 3cm diameter log",
+        "Wrap in plastic and refrigerate for 1 hour",
+        "Preheat oven to 200°C (non-fan)",
+        "Slice logs into 5mm thick pieces",
+        "Place on baking tray",
+        "Bake for 12-15 minutes until pale golden",
+        "Dust with salt and pepper while still warm"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-02-02",
+      "tags": ["savoury", "snack", "cheese", "biscuits"]
+    },
+    {
+      "id": "gruyere-bacon-spinach-eggs",
+      "title": "Gruyère Bacon Spinach Scrambled Eggs",
+      "category": "Breakfast",
+      "ingredients": [
+        {"item": "Large eggs", "amount": "8"},
+        {"item": "Dijon mustard", "amount": "1 tsp"},
+        {"item": "Salt and pepper", "amount": "To taste"},
+        {"item": "Olive oil or butter", "amount": "1 tbsp"},
+        {"item": "Thick-cut bacon", "amount": "2 slices, broken"},
+        {"item": "Fresh spinach", "amount": "2 cups"},
+        {"item": "Gruyère cheese", "amount": "½ cup shredded"}
+      ],
+      "steps": [
+        "Whisk eggs with Dijon mustard, 1 tbsp water, salt, and pepper",
+        "Heat oil or butter in skillet over medium heat",
+        "Add bacon pieces and cook until crispy",
+        "Pour in egg mixture and stir gently for 2-3 minutes",
+        "Fold in spinach and Gruyère cheese",
+        "Continue cooking until eggs are just set",
+        "Serve immediately"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-02-03",
+      "tags": ["breakfast", "eggs", "bacon", "spinach"]
+    },
+    {
+      "id": "panettone-chocolate-cherry-trifle",
+      "title": "Panettone Chocolate Cherry Trifle",
+      "category": "Dessert",
+      "ingredients": [
+        {"item": "Dark chocolate", "amount": "200g"},
+        {"item": "Fresh cherries", "amount": "300g"},
+        {"item": "Marsala wine", "amount": "⅓ cup"},
+        {"item": "Thickened cream", "amount": "600ml"},
+        {"item": "Crème fraîche", "amount": "200ml"},
+        {"item": "Icing sugar", "amount": "¼ cup"},
+        {"item": "Panettone", "amount": "½ loaf, sliced"}
+      ],
+      "steps": [
+        "Soak cherries in Marsala for at least 30 minutes",
+        "Heat half the cream until steaming",
+        "Chop 150g chocolate and melt in hot cream, set aside for ganache",
+        "Whisk crème fraîche, icing sugar, and remaining cold cream until soft peaks form",
+        "Layer in serving glasses: panettone, cherries with Marsala, ganache, cream mixture",
+        "Repeat layers finishing with cream",
+        "Drizzle extra ganache on top and shave remaining chocolate",
+        "Dust with icing sugar and serve chilled"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-02-04",
+      "tags": ["christmas", "dessert", "chocolate"]
+    },
+    {
+      "id": "marble-cheesecake",
+      "title": "Marble Cheesecake",
+      "category": "Dessert",
+      "ingredients": [
+        {"item": "Cream cheese", "amount": "500g"},
+        {"item": "Sour cream", "amount": "300g"},
+        {"item": "Caster sugar", "amount": "¾ cup"},
+        {"item": "Eggs", "amount": "3"},
+        {"item": "Dark chocolate", "amount": "100g melted"},
+        {"item": "Butter", "amount": "100g melted (for base)"},
+        {"item": "Digestive biscuits", "amount": "200g crushed (for base)"},
+        {"item": "Vanilla extract", "amount": "½ tsp"}
+      ],
+      "steps": [
+        "Preheat oven to 160°C",
+        "Mix crushed biscuits with melted butter and press into springform pan base",
+        "Process cream cheese, sour cream, and caster sugar until smooth",
+        "Beat in eggs one at a time",
+        "Add vanilla extract",
+        "Transfer 1⅓ cups to separate bowl and mix with melted dark chocolate",
+        "Pour half plain batter into base",
+        "Dollop half chocolate batter on top",
+        "Pour remaining plain batter",
+        "Dollop remaining chocolate batter",
+        "Swirl with a knife for marbled effect",
+        "Bake for 1 hour until center is just set",
+        "Cool completely in oven with door propped open",
+        "Refrigerate overnight before serving"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-02-05",
+      "tags": ["dessert", "baking", "chocolate"]
+    },
+    {
+      "id": "garlic-chilli-prawns",
+      "title": "Garlic Chilli Prawns",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Fresh prawns", "amount": "600g"},
+        {"item": "Sea salt", "amount": "Pinch"},
+        {"item": "Garlic cloves", "amount": "200g"},
+        {"item": "Extra virgin olive oil", "amount": "50ml"},
+        {"item": "Red chillies", "amount": "2-3"},
+        {"item": "Lemon", "amount": "1"},
+        {"item": "Sourdough bread", "amount": "For serving"},
+        {"item": "Olive oil", "amount": "100ml"}
+      ],
+      "steps": [
+        "Blanch whole chillies and garlic cloves in water for 20 minutes",
+        "Drain and blend with 50ml olive oil and lime juice until smooth",
+        "Heat 100ml olive oil in wide pan until very hot",
+        "Fry prawns for 2-3 minutes until starting to color",
+        "Add chilli-garlic sauce and simmer for 2 minutes",
+        "Serve with sourdough and fresh lemon wedges"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-02-06",
+      "tags": ["seafood", "main", "garlic"]
+    },
+    {
+      "id": "octopus-carpaccio",
+      "title": "Octopus Carpaccio",
+      "category": "Finger Food",
+      "ingredients": [
+        {"item": "Whole octopus", "amount": "1.5kg"},
+        {"item": "Yellow onion", "amount": "1"},
+        {"item": "Celery stalks", "amount": "2"},
+        {"item": "Carrot", "amount": "1"},
+        {"item": "Black peppercorns", "amount": "4"},
+        {"item": "Juniper berries", "amount": "3"},
+        {"item": "Bay leaves", "amount": "2"},
+        {"item": "Lemon juice", "amount": "3 tbsp"},
+        {"item": "Extra virgin olive oil", "amount": "2 tbsp"},
+        {"item": "Sea salt and pepper", "amount": "To taste"},
+        {"item": "Fresh parsley", "amount": "For garnish"}
+      ],
+      "steps": [
+        "Boil water with aromatics (onion, celery, carrot, peppercorns, juniper, bay leaves)",
+        "Dip octopus tentacles into boiling water 4-5 times until tender",
+        "Simmer gently for 70-90 minutes until very tender",
+        "Compress cooked octopus in glass bottle and refrigerate 24 hours",
+        "Slice tentacles 1-4mm thick",
+        "Dress with lemon juice, olive oil, sea salt, and pepper",
+        "Garnish with fresh parsley and serve as appetizer"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-02-07",
+      "tags": ["italian", "seafood", "appetizer"]
+    },
+    {
+      "id": "jollof-fried-chicken",
+      "title": "Jollof Fried Chicken",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Chicken breasts", "amount": "4, cut in strips"},
+        {"item": "Buttermilk", "amount": "250ml"},
+        {"item": "Rapeseed oil", "amount": "1 tbsp"},
+        {"item": "Cornflour", "amount": "½ cup"},
+        {"item": "Sea salt", "amount": "1 tsp"},
+        {"item": "Black pepper", "amount": "½ tsp"},
+        {"item": "Cubeb pepper", "amount": "½ tsp"},
+        {"item": "Garlic powder", "amount": "1 tsp"},
+        {"item": "Ground onion", "amount": "1 tsp"},
+        {"item": "Paprika", "amount": "½ tsp"}
+      ],
+      "steps": [
+        "Marinate chicken strips in buttermilk and Jollof spice mix for 1-2 hours (overnight preferred)",
+        "Mix cornflour with all seasonings",
+        "Coat marinated chicken pieces in cornflour mixture",
+        "Heat oil in deep pan until hot",
+        "Fry chicken for 3-4 minutes until golden and cooked through",
+        "Drain on paper towels and serve hot"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-02-08",
+      "tags": ["african", "fried", "chicken"]
+    },
+    {
+      "id": "smoked-pork-porchetta",
+      "title": "Smoked Pork Porchetta Roll",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Pork middle", "amount": "4 pounds"},
+        {"item": "Sea salt", "amount": "3 tbsp"},
+        {"item": "Black pepper", "amount": "1 tsp"},
+        {"item": "Yellow onions", "amount": "7, julienned"},
+        {"item": "Balsamic vinegar", "amount": "¾ cup"},
+        {"item": "Fresh arugula", "amount": "4 cups"},
+        {"item": "Garlic powder", "amount": "1 tsp"},
+        {"item": "Lemon zest", "amount": "1 tsp"},
+        {"item": "Olive oil", "amount": "1 tbsp"}
+      ],
+      "steps": [
+        "Season pork middle generously with sea salt, pepper, and garlic powder",
+        "Roll pork around julienned onions and tie securely with butcher's twine",
+        "Smoke or slow roast until internal temperature reaches 160°C",
+        "Caramelize remaining onions with balsamic vinegar until syrupy",
+        "Toss arugula with lemon zest, lemon juice, and olive oil",
+        "Slice porchetta and serve with caramelized onions and arugula salad"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-02-09",
+      "tags": ["christmas", "pork", "festive"]
+    },
+    {
+      "id": "pan-seared-scallops-butternut",
+      "title": "Pan-Seared Scallops with Butternut Purée",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Large scallops", "amount": "12"},
+        {"item": "Butternut squash", "amount": "1"},
+        {"item": "Butter", "amount": "4 tbsp"},
+        {"item": "Fresh herbs", "amount": "Thyme and sage"},
+        {"item": "Garlic cloves", "amount": "4"},
+        {"item": "Salt and pepper", "amount": "To taste"},
+        {"item": "Olive oil", "amount": "2 tbsp"},
+        {"item": "Red cabbage", "amount": "2 cups shredded"},
+        {"item": "Pomegranate seeds", "amount": "½ cup"},
+        {"item": "Roasted hazelnuts", "amount": "⅓ cup"},
+        {"item": "Fresh mint", "amount": "Handful"},
+        {"item": "Lemon", "amount": "1"},
+        {"item": "Quince paste", "amount": "2 tbsp"},
+        {"item": "Shallot", "amount": "1, minced"},
+        {"item": "Apple cider vinegar", "amount": "2 tbsp"}
+      ],
+      "steps": [
+        "Roast butternut squash at 200°C for 45 minutes to 1 hour until tender",
+        "Blend roasted squash with butter and herbs into smooth purée",
+        "Make vinaigrette: whisk quince paste, shallot, apple cider vinegar, and olive oil",
+        "Toss shredded cabbage with half the vinaigrette",
+        "Toss slaw with pomegranate seeds, hazelnuts, and fresh mint",
+        "Season scallops with salt and pepper",
+        "Sear scallops in hot oil for 2 minutes per side until golden",
+        "Plate with butternut purée, slaw, and remaining vinaigrette"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-02-10",
+      "tags": ["christmas", "seafood", "elegant"]
+    },
+    {
+      "id": "chinese-black-bean-oil",
+      "title": "Chinese Black Bean Oil",
+      "category": "Sauce",
+      "ingredients": [
+        {"item": "Dried black beans", "amount": "100g"},
+        {"item": "Garlic cloves", "amount": "150g"},
+        {"item": "Spring onions", "amount": "3"},
+        {"item": "Fresh ginger", "amount": "2 tbsp minced"},
+        {"item": "Sugar", "amount": "1 tbsp"},
+        {"item": "Chicken powder", "amount": "1 tsp"},
+        {"item": "Neutral oil", "amount": "125ml"}
+      ],
+      "steps": [
+        "Dry roast black beans in pan over medium heat (no oil or water) until fragrant, about 5 minutes",
+        "Heat oil in separate pot until shimmering",
+        "Add peeled garlic cloves and cook on high heat until beginning to brown, then reduce to low",
+        "Continue cooking garlic on low heat until golden brown and crispy, about 15-20 minutes",
+        "Add minced ginger and sliced spring onion",
+        "Stir in roasted black beans",
+        "Add chicken powder and sugar",
+        "Cool completely before storing in glass jar",
+        "Use as condiment for dumplings, noodles, or rice"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-02-11",
+      "tags": ["chinese", "sauce", "condiment"]
+    },
+    {
+      "id": "hunan-stir-fried-pork",
+      "title": "湖南小炒肉 (Hunan Stir-Fried Pork)",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Pork belly", "amount": "100g thin sliced"},
+        {"item": "Lean pork", "amount": "100g thin sliced"},
+        {"item": "Red chillies", "amount": "100g"},
+        {"item": "Garlic cloves", "amount": "Small handful"},
+        {"item": "Vegetable oil", "amount": "5g"},
+        {"item": "Sea salt", "amount": "2g"},
+        {"item": "Steamed fish soy sauce", "amount": "1ml"},
+        {"item": "Homemade seasoning powder", "amount": "Small pinch"}
+      ],
+      "steps": [
+        "Use quick knife technique to slice red chillies into rings, set aside",
+        "Slice pork belly and lean pork very thin",
+        "Dry fry chilli slices on medium heat without oil until soft and fragrant, about 3-4 minutes",
+        "Heat oil in wok or large pan over high heat",
+        "Add minced garlic and stir briefly",
+        "Add pork belly and stir fry until fat renders and meat begins to color",
+        "Add lean pork and stir fry until color changes",
+        "Add the dry fried chillies and stir fry together for 2 minutes",
+        "Season with sea salt and homemade seasoning powder",
+        "Add steamed fish soy sauce and serve immediately"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-02-12",
+      "tags": ["chinese", "pork", "hunan", "spicy"]
+    },
+    {
+      "id": "stir-fried-beef-peppers",
+      "title": "炒牛肉 (Stir-Fried Beef with Peppers)",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Beef sirloin", "amount": "150g thin sliced"},
+        {"item": "Green and red peppers", "amount": "100g"},
+        {"item": "Ginger and garlic", "amount": "Small handful"},
+        {"item": "Homemade spicy beef sauce", "amount": "2g"},
+        {"item": "Seasoning powder", "amount": "2g"},
+        {"item": "Sea salt", "amount": "2g"},
+        {"item": "Cooking wine", "amount": "5ml"},
+        {"item": "Vegetable oil", "amount": "5g"},
+        {"item": "Egg white", "amount": "1"},
+        {"item": "Oyster sauce", "amount": "2ml"}
+      ],
+      "steps": [
+        "Slice beef thin and marinate with cooking wine, minced ginger, egg white, and oyster sauce for 30 minutes",
+        "Cut peppers into rings or chunks",
+        "Slide marinated beef in hot oil for about 2 minutes until lightly cooked, remove and set aside",
+        "Add minced ginger and garlic to pan and stir fry until fragrant",
+        "Add spicy beef sauce and fry until red oil appears",
+        "Return beef to pan with pepper pieces",
+        "Season with seasoning powder and sea salt",
+        "Stir fry on high heat for 2 minutes until peppers are slightly softened",
+        "Taste and adjust seasoning, serve immediately"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-02-13",
+      "tags": ["chinese", "beef", "hunan", "spicy"]
+    }
+  ]
+}
+;
+    </script>
+
+    <!-- Firebase Config -->
+    <script>
+    // Firebase Configuration
+// Instructions: Get your config from Firebase Console → Project Settings → Your Apps
+
+// Load Firebase SDK
+const firebaseScript = document.createElement('script');
+firebaseScript.src = 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
+document.head.appendChild(firebaseScript);
+
+// Initialize Firebase when document is ready
+let firebaseDb = null;
+let firebaseAuth = null;
+let firebaseInitialized = false;
+
+window.initializeFirebase = function(config) {
+  try {
+    // Dynamically load Firebase modules
+    const promises = [
+      import('https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js'),
+      import('https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js')
+    ];
+
+    Promise.all(promises).then(() => {
+      firebase.initializeApp(config);
+      firebaseDb = firebase.database();
+      firebaseAuth = firebase.auth();
+      firebaseInitialized = true;
+
+      // Dispatch custom event
+      window.dispatchEvent(new CustomEvent('firebaseInitialized'));
+    }).catch(error => {
+      console.error('Failed to load Firebase modules:', error);
+      window.dispatchEvent(new CustomEvent('firebaseError', { detail: error }));
+    });
+  } catch (error) {
+    console.error('Firebase initialization error:', error);
+    window.dispatchEvent(new CustomEvent('firebaseError', { detail: error }));
+  }
+};
+
+// Load saved Firebase config from localStorage
+window.loadFirebaseConfig = function() {
+  const savedConfig = localStorage.getItem('firebaseConfig');
+  if (savedConfig) {
+    try {
+      const config = JSON.parse(savedConfig);
+      window.initializeFirebase(config);
+      return true;
+    } catch (error) {
+      console.error('Error parsing Firebase config:', error);
+      return false;
+    }
+  }
+  return false;
+};
+
+// Save Firebase config to localStorage
+window.saveFirebaseConfig = function(config) {
+  try {
+    localStorage.setItem('firebaseConfig', JSON.stringify(config));
+    return true;
+  } catch (error) {
+    console.error('Error saving Firebase config:', error);
+    return false;
+  }
+};
+
+// Clear Firebase config
+window.clearFirebaseConfig = function() {
+  localStorage.removeItem('firebaseConfig');
+  firebaseInitialized = false;
+  firebaseDb = null;
+  firebaseAuth = null;
+};
+
+// Check if Firebase is initialized
+window.isFirebaseInitialized = function() {
+  return firebaseInitialized && firebaseDb !== null;
+};
+
+// Get database reference
+window.getDatabase = function() {
+  return firebaseDb;
+};
+
+// Get auth instance
+window.getAuth = function() {
+  return firebaseAuth;
+};
+
+// Sync recipes to Firebase
+window.syncRecipesToFirebase = function(recipes) {
+  if (!window.isFirebaseInitialized()) {
+    console.log('Firebase not initialized');
+    return Promise.resolve();
+  }
+
+  const db = window.getDatabase();
+  const timestamp = new Date().toISOString();
+
+  return db.ref('recipes').set({
+    data: recipes,
+    lastSync: timestamp,
+    version: '1.0'
+  }).catch(error => {
+    console.error('Error syncing to Firebase:', error);
+  });
+};
+
+// Listen for recipe updates from Firebase
+window.listenForRecipeUpdates = function(callback) {
+  if (!window.isFirebaseInitialized()) {
+    console.log('Firebase not initialized');
+    return () => {};
+  }
+
+  const db = window.getDatabase();
+  const recipesRef = db.ref('recipes');
+
+  const listener = recipesRef.on('value', snapshot => {
+    const data = snapshot.val();
+    if (data && data.data) {
+      callback(data.data);
+    }
+  }, error => {
+    console.error('Error listening to recipes:', error);
+  });
+
+  // Return unsubscribe function
+  return () => {
+    recipesRef.off('value', listener);
+  };
+};
+
+// Add online/offline status listener
+window.setupOnlineStatusListener = function(callback) {
+  const connectedRef = firebase.database().ref('.info/connected');
+  connectedRef.on('value', snapshot => {
+    callback(snapshot.val() === true);
+  });
+};
+
+// Try to load saved Firebase config on page load
+document.addEventListener('DOMContentLoaded', () => {
+  window.loadFirebaseConfig();
+});
+
+    </script>
+
+    <!-- App Logic -->
+    <script>
+    // Family Recipe App - Main JavaScript
+// Progressive Web App for managing family recipes with cloud sync
+
+// Global State
+const appState = {
+  recipes: [],
+  filteredRecipes: [],
+  currentCategory: 'all',
+  searchQuery: '',
+  sortBy: 'title-asc',
+  currentRecipe: null,
+  darkMode: localStorage.getItem('darkMode') === 'true',
+  sidebarOpen: false,
+  firebaseInitialized: false
+};
+
+const categories = [
+  'all',
+  'Breakfast',
+  'Main',
+  'Dessert',
+  'Biscuits',
+  'Sauce',
+  'Drinks',
+  'Finger Food',
+  'Chinese',
+  'Christmas'
+];
+
+// Initialize app
+document.addEventListener('DOMContentLoaded', async () => {
+  console.log('App loading...');
+
+  // Register service worker
+  if ('serviceWorker' in navigator) {
+    try {
+      const registration = await navigator.serviceWorker.register('sw.js');
+      console.log('Service Worker registered:', registration);
+    } catch (error) {
+      console.error('Service Worker registration failed:', error);
+    }
+  }
+
+  // Load dark mode preference
+  if (appState.darkMode) {
+    document.documentElement.classList.add('dark-mode');
+    document.getElementById('darkModeBtn').textContent = '☀️';
+  }
+
+  // Load recipes
+  await loadRecipes();
+
+  // Setup event listeners
+  setupEventListeners();
+
+  // Render initial content
+  renderRecipes();
+
+  // Load Firebase config if available
+  window.loadFirebaseConfig();
+
+  // Listen for Firebase initialization
+  window.addEventListener('firebaseInitialized', () => {
+    appState.firebaseInitialized = true;
+    updateFirebaseStatus(true);
+    setupFirebaseSync();
+  });
+
+  window.addEventListener('firebaseError', () => {
+    updateFirebaseStatus(false);
+  });
+
+  // Check if running on iOS
+  checkIOS();
+
+  // Log version
+  console.log('Family Recipe App v1.0');
+});
+
+// Load recipes from embedded data, localStorage, or Firebase
+async function loadRecipes() {
+  try {
+    // Try Firebase first if available
+    if (window.isFirebaseInitialized && window.isFirebaseInitialized()) {
+      console.log('Loading recipes from Firebase...');
+      setupFirebaseSync();
+      return;
+    }
+
+    // Try localStorage first (may have user edits)
+    const saved = localStorage.getItem('recipes');
+    if (saved) {
+      appState.recipes = JSON.parse(saved);
+      console.log(`Loaded ${appState.recipes.length} recipes from cache`);
+      return;
+    }
+
+    // Fallback to embedded recipe data
+    if (window.EMBEDDED_RECIPES) {
+      appState.recipes = window.EMBEDDED_RECIPES.recipes || [];
+      console.log(`Loaded ${appState.recipes.length} recipes from embedded data`);
+      localStorage.setItem('recipes', JSON.stringify(appState.recipes));
+      return;
+    }
+  } catch (error) {
+    console.error('Error loading recipes:', error);
+  }
+}
+
+// Setup Firebase real-time sync
+function setupFirebaseSync() {
+  const unsubscribe = window.listenForRecipeUpdates((recipes) => {
+    appState.recipes = recipes;
+    localStorage.setItem('recipes', JSON.stringify(recipes));
+    renderRecipes();
+  });
+
+  // Setup online/offline listener
+  window.setupOnlineStatusListener((isOnline) => {
+    updateFirebaseStatus(isOnline);
+  });
+}
+
+// Update Firebase status indicator
+function updateFirebaseStatus(isOnline) {
+  const indicator = document.getElementById('firebaseStatus');
+  const statusText = document.getElementById('firebaseStatusText');
+
+  if (isOnline) {
+    indicator.className = 'status-indicator online';
+    statusText.textContent = 'Firebase Connected';
+  } else {
+    indicator.className = 'status-indicator offline';
+    statusText.textContent = 'Offline Mode (Local)';
+  }
+}
+
+// Setup event listeners
+function setupEventListeners() {
+  // Category buttons
+  document.querySelectorAll('.category-btn[data-category]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const category = e.target.dataset.category;
+      selectCategory(category);
+    });
+  });
+
+  // Search
+  document.getElementById('searchInput').addEventListener('input', (e) => {
+    appState.searchQuery = e.target.value.toLowerCase();
+    applyFiltersAndSort();
+  });
+
+  // Sort
+  document.getElementById('sortSelect').addEventListener('change', (e) => {
+    appState.sortBy = e.target.value;
+    applyFiltersAndSort();
+  });
+
+  // Add recipe button
+  document.getElementById('addRecipeBtn').addEventListener('click', openAddRecipeForm);
+
+  // Import button
+  document.getElementById('importBtn').addEventListener('click', () => {
+    document.getElementById('importFile').click();
+  });
+
+  document.getElementById('importFile').addEventListener('change', handleImport);
+
+  // Export button
+  document.getElementById('exportBtn').addEventListener('click', () => {
+    exportRecipes('all');
+  });
+
+  // Dark mode toggle
+  document.getElementById('darkModeBtn').addEventListener('click', toggleDarkMode);
+
+  // Settings button
+  document.getElementById('settingsBtn').addEventListener('click', openSettings);
+
+  // Modal close buttons
+  document.getElementById('recipeModal').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('recipeModal')) {
+      closeModal('recipeModal');
+    }
+  });
+
+  document.getElementById('editModal').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('editModal')) {
+      closeModal('editModal');
+    }
+  });
+
+  document.getElementById('settingsModal').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('settingsModal')) {
+      closeSettings();
+    }
+  });
+
+  // Edit form handlers
+  document.getElementById('editRecipeForm').addEventListener('submit', saveRecipe);
+  document.getElementById('addIngredientBtn').addEventListener('click', addIngredientField);
+  document.getElementById('addStepBtn').addEventListener('click', addStepField);
+  document.getElementById('editCancelBtn').addEventListener('click', () => closeModal('editModal'));
+
+  // Settings handlers
+  document.getElementById('saveFirebaseBtn').addEventListener('click', saveFirebaseConfig);
+  document.getElementById('clearFirebaseBtn').addEventListener('click', clearFirebaseConfig);
+  document.getElementById('exportAllBtn').addEventListener('click', () => exportRecipes('all'));
+  document.getElementById('clearAllBtn').addEventListener('click', clearAllData);
+  document.getElementById('settingsCloseBtn').addEventListener('click', closeSettings);
+  document.getElementById('settingsCloseBtnBottom').addEventListener('click', closeSettings);
+
+  // Mobile navigation
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', (e) => {
+      const view = e.currentTarget.dataset.view;
+      handleMobileNavigation(view);
+    });
+  });
+
+  // Mobile sidebar toggle
+  const toggleBtn = document.getElementById('toggleSidebar');
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', toggleSidebar);
+  }
+
+  // Show/hide toggle button on mobile
+  if (window.innerWidth <= 768) {
+    document.getElementById('toggleSidebar').style.display = 'block';
+  }
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) {
+      document.getElementById('toggleSidebar').style.display = 'none';
+      document.querySelector('.sidebar').classList.remove('open');
+    }
+  });
+}
+
+// Category selection
+function selectCategory(category) {
+  appState.currentCategory = category;
+
+  document.querySelectorAll('.category-btn[data-category]').forEach(btn => {
+    btn.classList.remove('active');
+  });
+
+  document.querySelector(`.category-btn[data-category="${category}"]`).classList.add('active');
+
+  applyFiltersAndSort();
+  closeSidebar();
+}
+
+// Apply filters and sorting
+function applyFiltersAndSort() {
+  let filtered = [...appState.recipes];
+
+  // Category filter
+  if (appState.currentCategory !== 'all') {
+    filtered = filtered.filter(r => r.category === appState.currentCategory);
+  }
+
+  // Search filter
+  if (appState.searchQuery) {
+    filtered = filtered.filter(recipe => {
+      const query = appState.searchQuery;
+      return (
+        recipe.title.toLowerCase().includes(query) ||
+        recipe.category.toLowerCase().includes(query) ||
+        recipe.ingredients.some(ing => ing.item.toLowerCase().includes(query)) ||
+        recipe.steps.some(step => step.toLowerCase().includes(query)) ||
+        recipe.tags?.some(tag => tag.toLowerCase().includes(query))
+      );
+    });
+  }
+
+  // Apply sorting
+  filtered.sort((a, b) => {
+    switch (appState.sortBy) {
+      case 'title-asc':
+        return a.title.localeCompare(b.title);
+      case 'title-desc':
+        return b.title.localeCompare(a.title);
+      case 'category':
+        return a.category.localeCompare(b.category) || a.title.localeCompare(b.title);
+      case 'date-desc':
+        return new Date(b.dateAdded) - new Date(a.dateAdded);
+      default:
+        return 0;
+    }
+  });
+
+  appState.filteredRecipes = filtered;
+  renderRecipes();
+}
+
+// Render recipe cards
+function renderRecipes() {
+  const container = document.getElementById('recipeList');
+  container.innerHTML = '';
+
+  if (appState.filteredRecipes.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">📚</div>
+        <div class="empty-state-title">No recipes found</div>
+        <div class="empty-state-text">
+          ${appState.searchQuery ? 'Try a different search' : 'Add a recipe to get started'}
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  appState.filteredRecipes.forEach(recipe => {
+    const card = createRecipeCard(recipe);
+    container.appendChild(card);
+  });
+}
+
+// Create recipe card element
+function createRecipeCard(recipe) {
+  const card = document.createElement('div');
+  card.className = `recipe-card fade-in ${recipe.category}`;
+
+  const ingredientsPreview = recipe.ingredients.slice(0, 3)
+    .map(ing => `${ing.item} (${ing.amount})`)
+    .join(', ');
+
+  const ingredientsTail = recipe.ingredients.length > 3 ? ` +${recipe.ingredients.length - 3} more` : '';
+
+  card.innerHTML = `
+    <div class="recipe-card-header">
+      <h3 class="recipe-card-title">${escapeHtml(recipe.title)}</h3>
+    </div>
+    <div class="recipe-card-category">${recipe.category}</div>
+    <div class="recipe-card-info">
+      📅 ${new Date(recipe.dateAdded).toLocaleDateString()}
+    </div>
+    <div class="recipe-card-preview">
+      <strong>Ingredients:</strong>
+      ${ingredientsPreview}${ingredientsTail}
+      <strong style="margin-top: 8px;">Steps:</strong>
+      ${recipe.steps.length} steps
+    </div>
+    <div class="recipe-card-actions">
+      <button class="view-btn">View</button>
+      <button class="edit-btn">Edit</button>
+      <button class="delete-btn">Delete</button>
+    </div>
+  `;
+
+  card.querySelector('.view-btn').addEventListener('click', () => viewRecipe(recipe));
+  card.querySelector('.edit-btn').addEventListener('click', () => editRecipe(recipe));
+  card.querySelector('.delete-btn').addEventListener('click', () => deleteRecipe(recipe.id));
+
+  return card;
+}
+
+// View recipe detail
+function viewRecipe(recipe) {
+  const container = document.getElementById('recipeDetailContainer');
+
+  const stepsHtml = recipe.steps.map((step, index) => `
+    <li data-step="${index + 1}">${escapeHtml(step)}</li>
+  `).join('');
+
+  const ingredientsHtml = recipe.ingredients.map(ing => `
+    <li>${escapeHtml(ing.amount)} ${escapeHtml(ing.item)}</li>
+  `).join('');
+
+  const tagsHtml = recipe.tags ? `
+    <div class="recipe-detail-meta-item">
+      🏷️ ${recipe.tags.join(', ')}
+    </div>
+  ` : '';
+
+  container.innerHTML = `
+    <div class="recipe-detail">
+      <div class="recipe-detail-header">
+        <h1 class="recipe-detail-title">${escapeHtml(recipe.title)}</h1>
+        <button class="recipe-detail-close" onclick="document.getElementById('recipeModal').classList.remove('open')">×</button>
+      </div>
+
+      <div class="recipe-detail-meta">
+        <div class="recipe-detail-meta-item">📂 ${recipe.category}</div>
+        <div class="recipe-detail-meta-item">📅 ${new Date(recipe.dateAdded).toLocaleDateString()}</div>
+        ${tagsHtml}
+      </div>
+
+      <div class="recipe-detail-section">
+        <h2 class="recipe-detail-section-title">Ingredients</h2>
+        <ul class="ingredients-list">
+          ${ingredientsHtml}
+        </ul>
+      </div>
+
+      <div class="recipe-detail-section">
+        <h2 class="recipe-detail-section-title">Steps</h2>
+        <ol class="steps-list">
+          ${stepsHtml}
+        </ol>
+      </div>
+
+      <div class="recipe-detail-actions">
+        <button class="recipe-detail-actions button btn-print" onclick="printRecipe('${escapeHtml(recipe.title)}')">🖨️ Print</button>
+        <button class="recipe-detail-actions button btn-edit" onclick="editRecipe({...appState.recipes.find(r => r.id === '${recipe.id}')})">✏️ Edit</button>
+        <button class="recipe-detail-actions button btn-delete" onclick="deleteRecipe('${recipe.id}')">🗑️ Delete</button>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('recipeModal').classList.add('open');
+}
+
+// Edit recipe
+function editRecipe(recipe) {
+  appState.currentRecipe = recipe;
+
+  document.getElementById('editTitle').value = recipe.title;
+  document.getElementById('editCategory').value = recipe.category;
+  document.getElementById('editTags').value = recipe.tags?.join(', ') || '';
+
+  // Clear and populate ingredients
+  const ingredientsContainer = document.getElementById('editIngredients');
+  ingredientsContainer.innerHTML = '';
+  recipe.ingredients.forEach(ing => {
+    addIngredientField(ing.item, ing.amount);
+  });
+
+  // Clear and populate steps
+  const stepsContainer = document.getElementById('editSteps');
+  stepsContainer.innerHTML = '';
+  recipe.steps.forEach(step => {
+    addStepField(step);
+  });
+
+  closeModal('recipeModal');
+  document.getElementById('editModal').classList.add('open');
+}
+
+// Add ingredient field
+function addIngredientField(item = '', amount = '') {
+  const container = document.getElementById('editIngredients');
+  const div = document.createElement('div');
+  div.className = 'form-array-item';
+  div.innerHTML = `
+    <input type="text" placeholder="Item" value="${item}" class="ingredient-item" required>
+    <input type="text" placeholder="Amount" value="${amount}" class="ingredient-amount" required>
+    <button type="button" onclick="this.parentElement.remove()">Remove</button>
+  `;
+  container.appendChild(div);
+}
+
+// Add step field
+function addStepField(step = '') {
+  const container = document.getElementById('editSteps');
+  const div = document.createElement('div');
+  div.className = 'form-array-item';
+  div.innerHTML = `
+    <input type="text" placeholder="Step description" value="${step}" class="step-text" required>
+    <button type="button" onclick="this.parentElement.remove()">Remove</button>
+  `;
+  container.appendChild(div);
+}
+
+// Save recipe
+function saveRecipe(e) {
+  e.preventDefault();
+
+  const ingredients = Array.from(document.querySelectorAll('.ingredient-item')).map((el, i) => ({
+    item: el.value,
+    amount: document.querySelectorAll('.ingredient-amount')[i].value
+  }));
+
+  const steps = Array.from(document.querySelectorAll('.step-text')).map(el => el.value);
+
+  const recipe = {
+    id: appState.currentRecipe?.id || generateId(),
+    title: document.getElementById('editTitle').value,
+    category: document.getElementById('editCategory').value,
+    ingredients,
+    steps,
+    tags: document.getElementById('editTags').value.split(',').map(t => t.trim()).filter(t => t),
+    dateAdded: appState.currentRecipe?.dateAdded || new Date().toISOString(),
+    source: 'User Added'
+  };
+
+  // Update or add recipe
+  const index = appState.recipes.findIndex(r => r.id === recipe.id);
+  if (index >= 0) {
+    appState.recipes[index] = recipe;
+  } else {
+    appState.recipes.push(recipe);
+  }
+
+  // Save to localStorage
+  localStorage.setItem('recipes', JSON.stringify(appState.recipes));
+
+  // Sync to Firebase if available
+  if (window.isFirebaseInitialized && window.isFirebaseInitialized()) {
+    window.syncRecipesToFirebase(appState.recipes);
+  }
+
+  showToast(appState.currentRecipe ? 'Recipe updated!' : 'Recipe added!');
+  appState.currentRecipe = null;
+  closeModal('editModal');
+  applyFiltersAndSort();
+}
+
+// Delete recipe
+function deleteRecipe(id) {
+  if (!confirm('Are you sure you want to delete this recipe?')) return;
+
+  appState.recipes = appState.recipes.filter(r => r.id !== id);
+  localStorage.setItem('recipes', JSON.stringify(appState.recipes));
+
+  // Sync to Firebase if available
+  if (window.isFirebaseInitialized && window.isFirebaseInitialized()) {
+    window.syncRecipesToFirebase(appState.recipes);
+  }
+
+  showToast('Recipe deleted');
+  closeModal('recipeModal');
+  applyFiltersAndSort();
+}
+
+// Open add recipe form
+function openAddRecipeForm() {
+  appState.currentRecipe = null;
+  document.getElementById('editTitle').value = '';
+  document.getElementById('editCategory').value = 'Main';
+  document.getElementById('editTags').value = '';
+  document.getElementById('editIngredients').innerHTML = '';
+  document.getElementById('editSteps').innerHTML = '';
+
+  addIngredientField();
+  addStepField();
+
+  document.getElementById('editModal').classList.add('open');
+}
+
+// Import recipes
+async function handleImport(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    try {
+      const data = JSON.parse(event.target.result);
+      const recipes = data.recipes || data;
+      appState.recipes = [...appState.recipes, ...recipes];
+      localStorage.setItem('recipes', JSON.stringify(appState.recipes));
+
+      // Sync to Firebase if available
+      if (window.isFirebaseInitialized && window.isFirebaseInitialized()) {
+        window.syncRecipesToFirebase(appState.recipes);
+      }
+
+      showToast(`Imported ${recipes.length} recipes!`);
+      applyFiltersAndSort();
+    } catch (error) {
+      showToast('Error importing recipes', 'error');
+      console.error('Import error:', error);
+    }
+  };
+  reader.readAsText(file);
+
+  // Reset file input
+  e.target.value = '';
+}
+
+// Export recipes
+function exportRecipes(type) {
+  const data = {
+    recipes: type === 'all' ? appState.recipes : appState.filteredRecipes,
+    exportDate: new Date().toISOString(),
+    version: '1.0'
+  };
+
+  const json = JSON.stringify(data, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `family-recipes-${new Date().getTime()}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+
+  showToast('Recipes exported!');
+}
+
+// Print recipe
+function printRecipe(title) {
+  window.print();
+}
+
+// Toggle dark mode
+function toggleDarkMode() {
+  appState.darkMode = !appState.darkMode;
+  localStorage.setItem('darkMode', appState.darkMode);
+
+  if (appState.darkMode) {
+    document.documentElement.classList.add('dark-mode');
+    document.getElementById('darkModeBtn').textContent = '☀️';
+  } else {
+    document.documentElement.classList.remove('dark-mode');
+    document.getElementById('darkModeBtn').textContent = '🌙';
+  }
+}
+
+// Open settings modal
+function openSettings() {
+  const config = localStorage.getItem('firebaseConfig');
+  if (config) {
+    document.getElementById('firebaseConfig').value = config;
+  }
+  document.getElementById('settingsModal').classList.add('open');
+}
+
+// Close settings modal
+function closeSettings() {
+  document.getElementById('settingsModal').classList.remove('open');
+}
+
+// Save Firebase config
+function saveFirebaseConfig() {
+  const configText = document.getElementById('firebaseConfig').value;
+  if (!configText) {
+    showToast('Please enter a Firebase config', 'error');
+    return;
+  }
+
+  try {
+    const config = JSON.parse(configText);
+    window.saveFirebaseConfig(config);
+    window.initializeFirebase(config);
+    showToast('Firebase config saved! Reloading...');
+    setTimeout(() => location.reload(), 1000);
+  } catch (error) {
+    showToast('Invalid JSON config', 'error');
+    console.error('Config error:', error);
+  }
+}
+
+// Clear Firebase config
+function clearFirebaseConfig() {
+  if (!confirm('Clear Firebase config? You\'ll use offline mode.')) return;
+  window.clearFirebaseConfig();
+  localStorage.removeItem('firebaseConfig');
+  showToast('Firebase config cleared');
+  setTimeout(() => location.reload(), 1000);
+}
+
+// Clear all data
+function clearAllData() {
+  if (!confirm('Are you sure? This will delete ALL recipes and cannot be undone.')) return;
+  appState.recipes = [];
+  localStorage.removeItem('recipes');
+  showToast('All data cleared');
+  applyFiltersAndSort();
+  closeSettings();
+}
+
+// Toggle sidebar on mobile
+function toggleSidebar() {
+  const sidebar = document.querySelector('.sidebar');
+  sidebar.classList.toggle('open');
+}
+
+// Close sidebar
+function closeSidebar() {
+  const sidebar = document.querySelector('.sidebar');
+  sidebar.classList.remove('open');
+}
+
+// Mobile navigation
+function handleMobileNavigation(view) {
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.classList.remove('active');
+  });
+
+  event.currentTarget.classList.add('active');
+
+  switch (view) {
+    case 'recipes':
+      // Already showing
+      break;
+    case 'add':
+      openAddRecipeForm();
+      break;
+    case 'settings':
+      openSettings();
+      break;
+    case 'about':
+      showAboutModal();
+      break;
+  }
+}
+
+// Show about modal
+function showAboutModal() {
+  alert(`Family Recipe Manager v1.0
+
+A progressive web app for sharing family recipes with real-time cloud sync.
+
+Features:
+• Search & filter recipes
+• Real-time Firebase sync
+• Offline support
+• Import/Export
+• Dark mode
+• Print recipes
+
+Made with ❤️ for families`);
+}
+
+// Modal helpers
+function closeModal(modalId) {
+  document.getElementById(modalId).classList.remove('open');
+}
+
+// Show toast notification
+function showToast(message, type = 'success') {
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = message;
+  document.body.appendChild(toast);
+
+  setTimeout(() => {
+    toast.remove();
+  }, 3000);
+}
+
+// Utility functions
+function escapeHtml(text) {
+  const map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+  return text.replace(/[&<>"']/g, m => map[m]);
+}
+
+function generateId() {
+  return Date.now().toString(36) + Math.random().toString(36).substr(2);
+}
+
+// Check if running on iOS
+function checkIOS() {
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  if (isIOS) {
+    console.log('Running on iOS');
+    // Add iOS-specific tweaks if needed
+  }
+}
+
+// Handle PWA installation prompt
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  // Show install button if desired
+});
+
+window.addEventListener('appinstalled', () => {
+  console.log('App installed as PWA');
+  showToast('App installed! You can now use it offline.');
+});
+
+// Update service worker
+navigator.serviceWorker?.ready.then(registration => {
+  registration.addEventListener('updatefound', () => {
+    const newWorker = registration.installing;
+    newWorker.addEventListener('statechange', () => {
+      if (newWorker.state === 'activated') {
+        showToast('App update available! Refresh to get the latest version.');
+      }
+    });
+  });
+});
+
+// Handle online/offline
+window.addEventListener('online', () => {
+  console.log('App is online');
+  showToast('Back online!');
+  // Attempt to sync
+  if (window.isFirebaseInitialized && window.isFirebaseInitialized()) {
+    window.syncRecipesToFirebase(appState.recipes);
+  }
+});
+
+window.addEventListener('offline', () => {
+  console.log('App is offline');
+  showToast('You are offline - using cached data');
+});
+
+    </script>
+
+</body>
+</html>

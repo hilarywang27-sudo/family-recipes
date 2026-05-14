@@ -1,0 +1,1077 @@
+{
+  "recipes": [
+    {
+      "id": "chairman-mao-pork",
+      "title": "Chairman Mao Pork",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Dark Soy", "amount": "¼ cup"},
+        {"item": "Light Soy", "amount": "½ cup"},
+        {"item": "Shaoxing Wine", "amount": "½ cup"},
+        {"item": "Rock Sugar", "amount": "¼ cup"},
+        {"item": "Pork Belly", "amount": "500g-1kg"},
+        {"item": "Ginger", "amount": "5cm sliced"},
+        {"item": "Spring Onions", "amount": "2, sliced 3-4cm"}
+      ],
+      "steps": [
+        "Cut pork belly into 3.5x1.5cm pieces (easier if partially frozen)",
+        "Brown pork skin-side up in lightly oiled pan",
+        "Layer half ginger and spring onion in clay pot, add pork skin-side down",
+        "Add soy sauce, wine, and rock sugar",
+        "Add remaining ginger and spring onion, cover with water",
+        "Bring to boil on high heat, then simmer on low-medium for 30 minutes",
+        "Flip pork skin-side up and cover for another 30 minutes",
+        "Steam without lid for 45 minutes",
+        "Serve with rice"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-01-15",
+      "tags": ["chinese", "pork", "traditional"]
+    },
+    {
+      "id": "chive-boxes",
+      "title": "Chive Boxes (Jiu Cai He Zi 韭菜盒子)",
+      "category": "Main",
+      "ingredients": [
+        {"item": "All-purpose flour", "amount": "500g"},
+        {"item": "Cold water", "amount": "As needed"},
+        {"item": "Pork mince", "amount": "300g"},
+        {"item": "Shrimp", "amount": "100g"},
+        {"item": "Fresh Chinese chives", "amount": "200g"},
+        {"item": "Large scallions", "amount": "3"},
+        {"item": "Minced ginger", "amount": "1 tbsp"},
+        {"item": "Soy sauce", "amount": "3 tbsp"},
+        {"item": "Pepper powder", "amount": "3g"},
+        {"item": "Seasoning powder", "amount": "2g"},
+        {"item": "Sesame oil", "amount": "1 tbsp"},
+        {"item": "Oil", "amount": "2 tbsp"}
+      ],
+      "steps": [
+        "Mix flour with cold water, rest 10 minutes, then knead until smooth",
+        "Fry scallions in oil until golden brown",
+        "Pour soy sauce into hot scallion oil and set aside",
+        "Clean shrimp and soak in scallion-ginger water",
+        "Mix pork with cooled soy-oil mixture, ginger, pepper, and seasoning",
+        "Add shrimp and chives to pork mixture, stir in sesame oil",
+        "Divide dough into 60g pieces and roll into 12cm circles",
+        "Fill each circle with mixture, seal edges, and pleat",
+        "Gently flatten with rolling pin",
+        "Pan fry until puffed and golden on both sides"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-01-16",
+      "tags": ["chinese", "dumplings", "pork"]
+    },
+    {
+      "id": "chicken-butter-beans-spinach",
+      "title": "Chicken with Butter Beans and Spinach",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Chicken", "amount": "1 jointed (or 2 breasts/4 thighs/4 drumsticks)"},
+        {"item": "Olive oil", "amount": "1 tbsp"},
+        {"item": "Garlic head", "amount": "1, halved"},
+        {"item": "Leek", "amount": "1, sliced"},
+        {"item": "White wine", "amount": "200ml"},
+        {"item": "Chicken stock", "amount": "400ml"},
+        {"item": "Thyme sprigs", "amount": "2"},
+        {"item": "Canned butter beans", "amount": "2x400g"},
+        {"item": "Baby spinach", "amount": "250g"},
+        {"item": "Salt and pepper", "amount": "To taste"}
+      ],
+      "steps": [
+        "Preheat oven to 180°C",
+        "Season and brown chicken pieces in oil",
+        "Add garlic cut-side down and sliced leeks",
+        "Add white wine and bubble for 2 minutes",
+        "Pour in stock and add thyme sprigs",
+        "Add drained butter beans and spinach, season to taste",
+        "Bake covered for 35-40 minutes until chicken is cooked",
+        "Rest for 5 minutes before serving"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-12-01",
+      "tags": ["christmas", "chicken", "italian"]
+    },
+    {
+      "id": "slow-roast-pork-belly-fennel",
+      "title": "Slow-Roast Pork Belly with Fennel",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Pork belly", "amount": "1kg"},
+        {"item": "Salt and pepper", "amount": "To taste"},
+        {"item": "Fennel bulb", "amount": "1, sliced"},
+        {"item": "Bay leaves", "amount": "4"},
+        {"item": "Garlic cloves", "amount": "3"},
+        {"item": "Cardamom pods", "amount": "1 tsp"},
+        {"item": "Star anise", "amount": "4"},
+        {"item": "Fennel seeds", "amount": "1 tbsp"},
+        {"item": "Olive oil", "amount": "2 tbsp"},
+        {"item": "White wine", "amount": "325ml"},
+        {"item": "Chicken stock", "amount": "500-750ml"},
+        {"item": "Wholegrain mustard", "amount": "1 tbsp"}
+      ],
+      "steps": [
+        "Preheat oven to 180°C",
+        "Score pork belly in diamond pattern and season generously",
+        "Heat fennel and spices in roasting tray",
+        "Brown pork skin-side down for 5 minutes",
+        "Flip, season, and add fennel seeds",
+        "Deglaze pan with white wine",
+        "Add stock until it reaches the fat line",
+        "Roast for 2.5 hours until tender",
+        "Rest meat for 10 minutes",
+        "Make gravy by whisking mustard into pan juices"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-12-02",
+      "tags": ["christmas", "pork", "festive"]
+    },
+    {
+      "id": "lemongrass-prawns-zucchini",
+      "title": "Lemongrass Prawns with Zucchini Salad",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Fresh lemongrass", "amount": "1 tbsp"},
+        {"item": "Fresh ginger", "amount": "2 tsp"},
+        {"item": "Garlic clove", "amount": "1"},
+        {"item": "Red chilli", "amount": "1"},
+        {"item": "Lime juice", "amount": "¼ cup"},
+        {"item": "Fresh coriander", "amount": "1 tbsp"},
+        {"item": "Olive oil", "amount": "1 tbsp"},
+        {"item": "Prawns", "amount": "750g"},
+        {"item": "Soy sauce", "amount": "1 tbsp"},
+        {"item": "Sesame oil", "amount": "¼ tsp"},
+        {"item": "Zucchini", "amount": "2, made into noodles"},
+        {"item": "Fresh mint", "amount": "½ cup"},
+        {"item": "Cucumber", "amount": "1, julienned"},
+        {"item": "Carrot", "amount": "1, julienned"},
+        {"item": "Spring onions", "amount": "2, sliced"}
+      ],
+      "steps": [
+        "Combine lemongrass, ginger, garlic, chilli, lime juice, coriander, and olive oil",
+        "Add prawns and marinate for 15-30 minutes",
+        "Cook prawns on hot grill or pan for 1-2 minutes each side",
+        "Toss all salad ingredients together",
+        "Serve prawns over salad"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-12-03",
+      "tags": ["christmas", "seafood", "fresh"]
+    },
+    {
+      "id": "chilli-crab",
+      "title": "Chilli Crab",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Blue swimmer crabs", "amount": "3"},
+        {"item": "Peanut oil", "amount": "2 tbsp"},
+        {"item": "Red onion", "amount": "½"},
+        {"item": "Red chillies", "amount": "2"},
+        {"item": "Garlic cloves", "amount": "2"},
+        {"item": "Fresh ginger", "amount": "2cm"},
+        {"item": "Spring onions", "amount": "2"},
+        {"item": "Ripe tomatoes", "amount": "3"},
+        {"item": "Rice wine", "amount": "2 tbsp"},
+        {"item": "Brown sugar", "amount": "1 tbsp"},
+        {"item": "Kecap manis", "amount": "1 tbsp"},
+        {"item": "Kaffir lime leaves", "amount": "3"},
+        {"item": "Fresh coriander", "amount": "For garnish"}
+      ],
+      "steps": [
+        "Cut each crab into 6 pieces and crack shells",
+        "Heat oil and stir-fry onion, chilli, garlic, ginger, and spring onion for 1 minute",
+        "Add crab pieces and toss to coat",
+        "Add tomato, rice wine, sugar, and kecap manis",
+        "Cover and steam for 4 minutes",
+        "Serve with kaffir lime leaves and fresh coriander"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-12-04",
+      "tags": ["christmas", "seafood", "chinese", "asian"]
+    },
+    {
+      "id": "egg-mushroom-tarts",
+      "title": "Egg and Mushroom Puff Pastry Tarts",
+      "category": "Breakfast",
+      "ingredients": [
+        {"item": "Puff pastry sheets", "amount": "2"},
+        {"item": "Eggs", "amount": "8"},
+        {"item": "Red onion", "amount": "½"},
+        {"item": "Cherry tomatoes", "amount": "150g"},
+        {"item": "Parmesan cheese", "amount": "⅓ cup grated"},
+        {"item": "Olive oil", "amount": "1 tbsp"},
+        {"item": "Button mushrooms", "amount": "200g"},
+        {"item": "Swiss brown mushrooms", "amount": "200g"},
+        {"item": "Basil pesto", "amount": "⅓ cup"},
+        {"item": "Baby rocket", "amount": "Handful"}
+      ],
+      "steps": [
+        "Preheat oven to 220°C",
+        "Cut pastry into 4 rectangles and fold borders up slightly",
+        "Prick pastry bases with fork",
+        "Crack 2 eggs into each tart, top with onion, tomato, and parmesan",
+        "Bake for 15 minutes until eggs are set and pastry is golden",
+        "While baking, sauté mushrooms in olive oil for 5 minutes",
+        "Serve tarts topped with mushrooms, a dollop of pesto, and rocket"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-12-05",
+      "tags": ["christmas", "breakfast", "vegetarian"]
+    },
+    {
+      "id": "berry-sheet-pancake",
+      "title": "Berry Sheet Pancake",
+      "category": "Breakfast",
+      "ingredients": [
+        {"item": "All-purpose flour", "amount": "2 cups"},
+        {"item": "Caster sugar", "amount": "⅓ cup"},
+        {"item": "Bicarbonate of soda", "amount": "½ tsp"},
+        {"item": "Buttermilk", "amount": "1½ cups"},
+        {"item": "Egg", "amount": "1"},
+        {"item": "Vanilla extract", "amount": "2 tsp"},
+        {"item": "Butter", "amount": "50g melted"},
+        {"item": "Raspberries", "amount": "150g"},
+        {"item": "Strawberries", "amount": "150g"},
+        {"item": "Blueberries", "amount": "150g"},
+        {"item": "Icing sugar", "amount": "For dusting"},
+        {"item": "Cream", "amount": "For serving"},
+        {"item": "Golden syrup", "amount": "For drizzling"}
+      ],
+      "steps": [
+        "Preheat oven to 200°C",
+        "Whisk together dry ingredients: flour, sugar, bicarb soda",
+        "Whisk together wet ingredients: buttermilk, egg, vanilla, melted butter",
+        "Combine wet and dry ingredients until just mixed",
+        "Butter a large tray and spread batter evenly",
+        "Top with half the berries and dot with butter",
+        "Bake for 10 minutes until golden",
+        "Flash grill for 1-2 minutes until slightly crispy",
+        "Dust with icing sugar, serve with remaining berries, cream, and syrup"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-12-06",
+      "tags": ["christmas", "breakfast", "dessert"]
+    },
+    {
+      "id": "char-siu-bao",
+      "title": "Char Siu Bao (BBQ Pork Buns)",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Instant yeast", "amount": "1 tsp"},
+        {"item": "Warm water", "amount": "¼ cup + ½ cup"},
+        {"item": "Sugar", "amount": "1 tbsp + 4 tbsp"},
+        {"item": "All-purpose flour", "amount": "2 cups"},
+        {"item": "Cornflour", "amount": "1 cup"},
+        {"item": "Vegetable oil", "amount": "¼ cup"},
+        {"item": "Baking powder", "amount": "2½ tsp"},
+        {"item": "Peanut oil", "amount": "1 tbsp"},
+        {"item": "Eschalots", "amount": "⅓ cup chopped"},
+        {"item": "Soy sauce", "amount": "1½ tbsp"},
+        {"item": "Oyster sauce", "amount": "1½ tbsp"},
+        {"item": "Sesame oil", "amount": "1 tbsp"},
+        {"item": "Water for filling", "amount": "½ cup"},
+        {"item": "Cornflour slurry", "amount": "As needed"},
+        {"item": "Char siu pork", "amount": "1½ cups chopped"}
+      ],
+      "steps": [
+        "Activate yeast: mix with ¼ cup water, 1 tbsp sugar, let sit 10 minutes",
+        "Mix dough: flour, cornflour, 4 tbsp sugar, combine with yeast mixture and ½ cup water",
+        "Add oil and knead in stand mixer for 3 minutes",
+        "Let dough rise for 2 hours until doubled",
+        "Add baking powder and mix gently",
+        "Prepare filling: fry eschalots in oil, add soy/oyster/sesame sauces and water, thicken with cornflour slurry, add char siu",
+        "Divide dough into 12 pieces",
+        "Roll each into 11cm circle, place 1½ tbsp filling in center",
+        "Pleat and seal edges, place pleated-side up on parchment squares",
+        "Rest 15 minutes",
+        "Steam for 12 minutes"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-01-18",
+      "tags": ["chinese", "pork", "dim-sum", "bread"]
+    },
+    {
+      "id": "wild-mushroom-toast",
+      "title": "Wild Mushroom Toast",
+      "category": "Finger Food",
+      "ingredients": [
+        {"item": "Olive oil", "amount": "2 tbsp"},
+        {"item": "Mixed mushrooms", "amount": "500g"},
+        {"item": "Salt and pepper", "amount": "To taste"},
+        {"item": "Red chilli", "amount": "1"},
+        {"item": "Fresh parsley", "amount": "¼ cup"},
+        {"item": "Ricotta cheese", "amount": "½ cup"},
+        {"item": "Spreadable cheese", "amount": "½ cup"},
+        {"item": "Baguette slices", "amount": "4"}
+      ],
+      "steps": [
+        "Cook mushrooms in batches in hot oil until golden, season with salt and pepper",
+        "Sauté finely chopped chilli and toss with mushrooms and parsley",
+        "Combine ricotta and spreadable cheese",
+        "Spread cheese mixture on toasted baguette slices",
+        "Top with mushroom mixture and serve"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-12-07",
+      "tags": ["christmas", "finger-food", "vegetarian", "appetizer"]
+    },
+    {
+      "id": "lobster-salad-saffron",
+      "title": "Lobster Salad with Saffron Dressing",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Hot water", "amount": "1 tbsp"},
+        {"item": "Saffron threads", "amount": "¼ tsp"},
+        {"item": "Mayonnaise", "amount": "½ cup"},
+        {"item": "Lemon juice", "amount": "1 tbsp"},
+        {"item": "Horseradish cream", "amount": "2 tsp"},
+        {"item": "Mustard powder", "amount": "½ tsp"},
+        {"item": "Salt and pepper", "amount": "To taste"},
+        {"item": "Asparagus", "amount": "1 bunch"},
+        {"item": "Cos lettuce", "amount": "2 heads"},
+        {"item": "Grape tomatoes", "amount": "200g"},
+        {"item": "Avocado", "amount": "1"},
+        {"item": "Red onion", "amount": "½"},
+        {"item": "Thai basil", "amount": "Handful"},
+        {"item": "Cooked lobsters", "amount": "2"}
+      ],
+      "steps": [
+        "Infuse saffron in hot water for 5 minutes",
+        "Mix saffron liquid with mayonnaise, lemon juice, horseradish, and mustard",
+        "Cook asparagus until tender-crisp, about 2 minutes",
+        "Toss salad greens, tomatoes, avocado, onion, and herbs",
+        "Top salad with fresh lobster meat",
+        "Drizzle with saffron dressing and serve"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-12-08",
+      "tags": ["christmas", "seafood", "elegant"]
+    },
+    {
+      "id": "spinach-gruyere-potato-casserole",
+      "title": "Spinach & Gruyère Potato Casserole",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Red potatoes", "amount": "650g"},
+        {"item": "Olive oil", "amount": "2 tbsp"},
+        {"item": "Eggs", "amount": "4"},
+        {"item": "Half-and-half cream", "amount": "¼ cup"},
+        {"item": "Gruyère cheese", "amount": "2 cups grated"},
+        {"item": "Fresh basil", "amount": "¼ cup"},
+        {"item": "Fresh parsley", "amount": "¼ cup"},
+        {"item": "Garlic cloves", "amount": "3"},
+        {"item": "Fresh spinach", "amount": "3 cups"},
+        {"item": "Fennel bulbs", "amount": "2"}
+      ],
+      "steps": [
+        "Preheat oven to 230°C",
+        "Toss potatoes and fennel with oil, roast 20-25 minutes",
+        "Whisk eggs, cream, cheese, basil, and parsley together",
+        "Mince garlic and combine with roasted vegetables and spinach",
+        "Fold into egg mixture",
+        "Pour into baking dish, cover with foil",
+        "Bake for 30-35 minutes covered",
+        "Uncover and bake 5 minutes until set"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-12-09",
+      "tags": ["christmas", "vegetarian", "main-dish"]
+    },
+    {
+      "id": "bbq-prawns-mango-mayo",
+      "title": "BBQ Prawns with Mango Mayonnaise",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Large prawns", "amount": "1.5kg"},
+        {"item": "Olive oil", "amount": "1 tbsp"},
+        {"item": "Red chilli", "amount": "1"},
+        {"item": "Fresh ginger", "amount": "2 tsp"},
+        {"item": "Fresh coriander", "amount": "1 tbsp"},
+        {"item": "Fresh lemongrass", "amount": "1½ tbsp"},
+        {"item": "Ripe mango", "amount": "1"},
+        {"item": "Birdseye chilli", "amount": "1"},
+        {"item": "Wholegrain mustard", "amount": "1 tsp"},
+        {"item": "Egg yolk", "amount": "1"},
+        {"item": "Vegetable oil", "amount": "½ cup"},
+        {"item": "Lime juice", "amount": "2 tsp"}
+      ],
+      "steps": [
+        "Prepare marinade with chilli, ginger, coriander, lemongrass, and oil",
+        "Marinate prawns for 15 minutes",
+        "Blend mango with birdseye chilli, mustard, and egg yolk",
+        "Slowly whisk in vegetable oil to emulsify",
+        "Finish mango mayo with lime juice",
+        "BBQ prawns for 1-2 minutes each side",
+        "Serve with mango mayonnaise"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-12-10",
+      "tags": ["christmas", "seafood", "bbq"]
+    },
+    {
+      "id": "cheesy-baked-asparagus",
+      "title": "Cheesy Baked Asparagus",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Fresh asparagus", "amount": "1kg"},
+        {"item": "Heavy cream", "amount": "¾ cup"},
+        {"item": "Garlic cloves", "amount": "3, minced"},
+        {"item": "Salt and pepper", "amount": "To taste"},
+        {"item": "Grated parmesan", "amount": "1 cup"},
+        {"item": "Grated mozzarella", "amount": "1 cup"},
+        {"item": "Red pepper flakes", "amount": "To taste"}
+      ],
+      "steps": [
+        "Preheat oven to 200°C",
+        "Layer asparagus spears in baking dish",
+        "Pour cream over and scatter minced garlic",
+        "Season with salt and pepper",
+        "Top with combined parmesan and mozzarella",
+        "Sprinkle with red pepper flakes",
+        "Bake for 25-30 minutes until asparagus is tender and cheese is bubbly"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-12-11",
+      "tags": ["christmas", "vegetarian", "side-dish"]
+    },
+    {
+      "id": "chicken-prosciutto-panzanella",
+      "title": "Chicken and Prosciutto Panzanella",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Ciabatta rolls", "amount": "2"},
+        {"item": "Garlic olive oil", "amount": "For drizzling"},
+        {"item": "Fresh rosemary", "amount": "2 sprigs"},
+        {"item": "Chicken breasts", "amount": "3"},
+        {"item": "Radicchio", "amount": "½ head"},
+        {"item": "Ripe tomatoes", "amount": "3"},
+        {"item": "English cucumber", "amount": "1"},
+        {"item": "Red onion", "amount": "½"},
+        {"item": "Prosciutto", "amount": "6-8 slices"},
+        {"item": "Fresh basil", "amount": "Handful"},
+        {"item": "Red wine vinegar", "amount": "3 tbsp"},
+        {"item": "Extra virgin olive oil", "amount": "½ cup"},
+        {"item": "Baby capers", "amount": "1 tbsp"},
+        {"item": "Dijon mustard", "amount": "½ tsp"}
+      ],
+      "steps": [
+        "Toast ciabatta for 15 minutes, drizzle with garlic oil, rub with rosemary",
+        "Season and cook chicken breasts for 5 minutes each side, rest and slice",
+        "Make vinaigrette by whisking vinegar, oil, capers, and mustard",
+        "Roughly chop toasted bread and toss vegetables",
+        "Combine salad, bread, chicken, and prosciutto",
+        "Dress with vinaigrette and fresh basil"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-12-12",
+      "tags": ["christmas", "salad", "chicken"]
+    },
+    {
+      "id": "mud-crab-chilli-sauce",
+      "title": "Mud Crab with Chilli Sauce",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Peanut oil", "amount": "¼ cup"},
+        {"item": "Mud crab", "amount": "1"},
+        {"item": "Salt", "amount": "¼ tsp"},
+        {"item": "Tomato passata", "amount": "1 cup"},
+        {"item": "Fish or chicken stock", "amount": "1 cup"},
+        {"item": "Palm sugar", "amount": "2 tbsp"},
+        {"item": "Rice vinegar", "amount": "1 tbsp"},
+        {"item": "Soy sauce", "amount": "1 tbsp"},
+        {"item": "Spring onions", "amount": "3"},
+        {"item": "Cornflour slurry", "amount": "As needed"},
+        {"item": "Egg", "amount": "1"},
+        {"item": "Fresh coriander", "amount": "For garnish"},
+        {"item": "Red chillies", "amount": "For garnish"},
+        {"item": "Red onion", "amount": "1"},
+        {"item": "Garlic cloves", "amount": "4"},
+        {"item": "Red chillies", "amount": "6"}
+      ],
+      "steps": [
+        "Prepare crab by cutting into serving pieces and cracking shells",
+        "Blend paste: red onion, garlic, and red chillies",
+        "Heat oil and fry paste for 5 minutes until fragrant",
+        "Add crab pieces and toss to coat",
+        "Add passata, stock, palm sugar, vinegar, and soy sauce",
+        "Simmer for 10 minutes, covered",
+        "Thicken with cornflour slurry if needed",
+        "Temper with beaten egg by slowly pouring in while stirring",
+        "Garnish with spring onions, coriander, and chillies"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-12-13",
+      "tags": ["christmas", "seafood", "chinese", "asian"]
+    },
+    {
+      "id": "red-curry-sea-bass",
+      "title": "Red Curry Sea Bass",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Spring onions", "amount": "4"},
+        {"item": "Fresh coriander", "amount": "1 bunch"},
+        {"item": "Whole sea bass", "amount": "2"},
+        {"item": "Thai red curry paste", "amount": "2 tbsp"},
+        {"item": "Lime", "amount": "2"}
+      ],
+      "steps": [
+        "Shred spring onions lengthwise and crisp in ice water",
+        "Score fish on both sides and rub with curry paste",
+        "Stuff cavity with fresh coriander stalks",
+        "Fry fish for 3-4 minutes on each side until skin is crispy",
+        "Serve with lime wedges and crispy spring onions"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-12-14",
+      "tags": ["christmas", "seafood", "thai"]
+    },
+    {
+      "id": "chinese-garlic-chive-pancake",
+      "title": "Chinese Garlic Chive Pancake",
+      "category": "Main",
+      "ingredients": [
+        {"item": "All-purpose flour", "amount": "250g"},
+        {"item": "Lukewarm water", "amount": "175ml (ratio 1:0.7)"},
+        {"item": "Pork mince", "amount": "200g"},
+        {"item": "Prawns", "amount": "100g (optional)"},
+        {"item": "Spring onion whites", "amount": "2"},
+        {"item": "Chinese garlic chives", "amount": "200g"},
+        {"item": "Soy sauce", "amount": "3 tbsp"},
+        {"item": "Sesame oil", "amount": "1 tbsp"},
+        {"item": "Minced ginger", "amount": "1 tbsp"},
+        {"item": "Spring onion greens", "amount": "1 tbsp chopped"},
+        {"item": "Oil", "amount": "For pan frying"}
+      ],
+      "steps": [
+        "Fry spring onion whites in oil until brown and fragrant",
+        "Add soy sauce to hot oil and set aside for garnish",
+        "Make dough with flour and lukewarm water, rest 10 minutes",
+        "Season pork mince with ginger, spring onion greens, and soy sauce",
+        "Add chopped garlic chives and sesame oil to pork",
+        "Roll out 60g dough pieces into 12cm circles",
+        "Fill with 1½ tbsp pork mixture, seal edges tightly",
+        "Gently flatten with rolling pin",
+        "Pan fry on medium-high heat until golden and puffy on both sides"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-01-19",
+      "tags": ["chinese", "pork", "savory"]
+    },
+    {
+      "id": "chinese-stew-beef-potato",
+      "title": "Chinese Stew Beef and Potato",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Beef brisket", "amount": "800g"},
+        {"item": "Spring onions", "amount": "3"},
+        {"item": "Garlic cloves", "amount": "4"},
+        {"item": "Fresh ginger", "amount": "5cm"},
+        {"item": "Dried orange peel", "amount": "1 piece"},
+        {"item": "Cao guo (brown cardamom)", "amount": "1"},
+        {"item": "Bai zhi (angelica sinensis)", "amount": "½ tsp"},
+        {"item": "Cinnamon stick", "amount": "1"},
+        {"item": "Star anise", "amount": "2"},
+        {"item": "Dried red chillies", "amount": "2"},
+        {"item": "Black bean sauce", "amount": "2 tbsp"},
+        {"item": "Yellow bean sauce", "amount": "1 tbsp"},
+        {"item": "White vinegar", "amount": "1 tbsp"},
+        {"item": "Rock sugar", "amount": "1 piece"},
+        {"item": "Cooking wine", "amount": "3 tbsp"},
+        {"item": "Green peppers", "amount": "4"},
+        {"item": "Potatoes", "amount": "3 medium"},
+        {"item": "Carrots", "amount": "2"},
+        {"item": "Dark soy sauce", "amount": "2 tbsp"},
+        {"item": "Light soy sauce", "amount": "1 tbsp"},
+        {"item": "Onion", "amount": "½"}
+      ],
+      "steps": [
+        "Blanch beef brisket in cold water with spring onion, orange peel, and vinegar until foamy, then drain and rinse",
+        "Fry rock sugar in a pot until caramelized",
+        "Add dried aromatics, garlic, ginger, and beef, stir until beef is colored with dark soy",
+        "Add cooking wine and enough water to cover",
+        "Pressure cook for 45 minutes until tender",
+        "Make bean sauce by frying black bean sauce and yellow bean sauce",
+        "Combine sauce with beef and cook another 20 minutes in pressure cooker",
+        "Strain cooking liquid, return beef and sauce to pot",
+        "Air fry potatoes and carrots until cooked",
+        "Add potatoes and carrots, simmer until sauce is sticky",
+        "Add green pepper at the end",
+        "Serve in clay pot, garnish with sliced onion"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-01-20",
+      "tags": ["chinese", "beef", "stew"]
+    },
+    {
+      "id": "chinese-stew-tofu",
+      "title": "Chinese Stew Tofu",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Firm tofu", "amount": "400g"},
+        {"item": "Fresh ginger", "amount": "3cm slice"},
+        {"item": "Spring onions", "amount": "3"},
+        {"item": "Pork lard", "amount": "1 tbsp"},
+        {"item": "Chicken fat", "amount": "1 tbsp"},
+        {"item": "Light soy sauce", "amount": "2 tbsp"},
+        {"item": "Cooking wine (黄酒)", "amount": "2 tbsp"},
+        {"item": "Oyster sauce", "amount": "1 tbsp"},
+        {"item": "Sugar", "amount": "½ tsp"},
+        {"item": "White pepper powder", "amount": "¼ tsp"},
+        {"item": "Star anise", "amount": "1"},
+        {"item": "Water or soup stock", "amount": "1 cup"}
+      ],
+      "steps": [
+        "Break tofu into irregular pieces by hand",
+        "Stir fry ginger and spring onion in pork lard and chicken fat until fragrant",
+        "Add star anise",
+        "Add light soy sauce until fragrant",
+        "Add cooking wine",
+        "Add water or soup stock",
+        "Add oyster sauce",
+        "Add sugar and white pepper",
+        "Add tofu pieces",
+        "Bring to boil then simmer gently for 30 minutes",
+        "Serve hot"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-01-21",
+      "tags": ["chinese", "tofu", "vegetarian"]
+    },
+    {
+      "id": "winter-black-rice-drink",
+      "title": "Winter Black Rice Drink",
+      "category": "Drinks",
+      "ingredients": [
+        {"item": "Black glutinous rice", "amount": "¼ cup"},
+        {"item": "Water", "amount": "800ml"},
+        {"item": "Red dates (pitted)", "amount": "6-8"},
+        {"item": "Rock sugar", "amount": "20g"},
+        {"item": "Rolled oatmeal", "amount": "¼ cup"},
+        {"item": "Mixed nuts", "amount": "¼ cup (walnuts, pumpkin seeds)"}
+      ],
+      "steps": [
+        "Boil black glutinous rice in 800ml water for 30 minutes",
+        "Add pitted red dates and rock sugar",
+        "Cook for 5 more minutes",
+        "Add more water if needed for desired consistency",
+        "Add oatmeal",
+        "Blend in food processor until smooth or chunky as preferred",
+        "Add nuts and serve warm"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-01-22",
+      "tags": ["chinese", "drinks", "health", "winter"]
+    },
+    {
+      "id": "chinese-beef-tendon",
+      "title": "Chinese-Style Beef Tendon",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Beef tendons", "amount": "1kg"},
+        {"item": "Cinnamon stick", "amount": "1"},
+        {"item": "Star anise", "amount": "5"},
+        {"item": "Bay leaves", "amount": "2"},
+        {"item": "Sichuan peppercorns", "amount": "1 tbsp"},
+        {"item": "Soy sauce", "amount": "½ cup"},
+        {"item": "Dark soy sauce", "amount": "¼ cup"},
+        {"item": "Rock sugar", "amount": "3 tbsp"},
+        {"item": "Fresh ginger", "amount": "5cm sliced"},
+        {"item": "Spring onions", "amount": "4"},
+        {"item": "Dried red chillies", "amount": "2"},
+        {"item": "Cooking wine", "amount": "1 tbsp"},
+        {"item": "Chilli oil", "amount": "For serving"},
+        {"item": "Vinegar", "amount": "For serving"},
+        {"item": "Fried garlic", "amount": "For garnish"}
+      ],
+      "steps": [
+        "Blanch beef tendons in boiling water until surface is clean",
+        "Slow cook with all spices and sauces for 8 hours, or pressure cook until very tender, or cook in clay pot in oven for 12 hours at low temperature",
+        "Remove tendons from cooking broth",
+        "Slice when cooled to room temperature",
+        "Mix remaining stock with vinegar, chilli oil, and soy sauce",
+        "Serve tendons at room temperature or reheat in oven for a few minutes",
+        "Pour sauce over top and garnish with fried garlic and scallions"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-01-23",
+      "tags": ["chinese", "beef", "delicacy"]
+    },
+    {
+      "id": "cherry-almond-biscuits",
+      "title": "Cherry Almond Biscuits",
+      "category": "Biscuits",
+      "ingredients": [
+        {"item": "Ground almonds", "amount": "500g"},
+        {"item": "Caster sugar", "amount": "350g"},
+        {"item": "Icing sugar", "amount": "150g"},
+        {"item": "Egg whites", "amount": "5, lightly beaten"},
+        {"item": "Vanilla essence", "amount": "3 drops"},
+        {"item": "Almond essence", "amount": "3 drops"},
+        {"item": "Glacé cherries", "amount": "150g halved"}
+      ],
+      "steps": [
+        "Preheat oven to 180°C",
+        "Mix egg whites, ground almonds, caster sugar, vanilla essence, and almond essence",
+        "Roll mixture into walnut-sized balls",
+        "Coat each ball in icing sugar",
+        "Flatten slightly and place on lined baking tray",
+        "Top each with a cherry half",
+        "Bake for 7-10 minutes until set but still soft"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-02-01",
+      "tags": ["italian", "cookies", "almond", "biscuits"]
+    },
+    {
+      "id": "cheese-biscuits",
+      "title": "Cheese Biscuits",
+      "category": "Biscuits",
+      "ingredients": [
+        {"item": "Plain flour", "amount": "1½ cups"},
+        {"item": "Grated parmesan", "amount": "½ cup"},
+        {"item": "Grated vintage cheddar", "amount": "½ cup"},
+        {"item": "Chilled butter", "amount": "125g cubed"},
+        {"item": "Paprika", "amount": "½ tsp"},
+        {"item": "Salt", "amount": "½ tsp"},
+        {"item": "Fresh rosemary", "amount": "½ tsp (optional)"},
+        {"item": "Salt and pepper", "amount": "For dusting"}
+      ],
+      "steps": [
+        "Process butter, cheese, flour, paprika, salt, and rosemary in food processor until mixture resembles breadcrumbs",
+        "Form into a ball and divide in half",
+        "Shape each half into a 3cm diameter log",
+        "Wrap in plastic and refrigerate for 1 hour",
+        "Preheat oven to 200°C (non-fan)",
+        "Slice logs into 5mm thick pieces",
+        "Place on baking tray",
+        "Bake for 12-15 minutes until pale golden",
+        "Dust with salt and pepper while still warm"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-02-02",
+      "tags": ["savoury", "snack", "cheese", "biscuits"]
+    },
+    {
+      "id": "gruyere-bacon-spinach-eggs",
+      "title": "Gruyère Bacon Spinach Scrambled Eggs",
+      "category": "Breakfast",
+      "ingredients": [
+        {"item": "Large eggs", "amount": "8"},
+        {"item": "Dijon mustard", "amount": "1 tsp"},
+        {"item": "Salt and pepper", "amount": "To taste"},
+        {"item": "Olive oil or butter", "amount": "1 tbsp"},
+        {"item": "Thick-cut bacon", "amount": "2 slices, broken"},
+        {"item": "Fresh spinach", "amount": "2 cups"},
+        {"item": "Gruyère cheese", "amount": "½ cup shredded"}
+      ],
+      "steps": [
+        "Whisk eggs with Dijon mustard, 1 tbsp water, salt, and pepper",
+        "Heat oil or butter in skillet over medium heat",
+        "Add bacon pieces and cook until crispy",
+        "Pour in egg mixture and stir gently for 2-3 minutes",
+        "Fold in spinach and Gruyère cheese",
+        "Continue cooking until eggs are just set",
+        "Serve immediately"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-02-03",
+      "tags": ["breakfast", "eggs", "bacon", "spinach"]
+    },
+    {
+      "id": "panettone-chocolate-cherry-trifle",
+      "title": "Panettone Chocolate Cherry Trifle",
+      "category": "Dessert",
+      "ingredients": [
+        {"item": "Dark chocolate", "amount": "200g"},
+        {"item": "Fresh cherries", "amount": "300g"},
+        {"item": "Marsala wine", "amount": "⅓ cup"},
+        {"item": "Thickened cream", "amount": "600ml"},
+        {"item": "Crème fraîche", "amount": "200ml"},
+        {"item": "Icing sugar", "amount": "¼ cup"},
+        {"item": "Panettone", "amount": "½ loaf, sliced"}
+      ],
+      "steps": [
+        "Soak cherries in Marsala for at least 30 minutes",
+        "Heat half the cream until steaming",
+        "Chop 150g chocolate and melt in hot cream, set aside for ganache",
+        "Whisk crème fraîche, icing sugar, and remaining cold cream until soft peaks form",
+        "Layer in serving glasses: panettone, cherries with Marsala, ganache, cream mixture",
+        "Repeat layers finishing with cream",
+        "Drizzle extra ganache on top and shave remaining chocolate",
+        "Dust with icing sugar and serve chilled"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-02-04",
+      "tags": ["christmas", "dessert", "chocolate"]
+    },
+    {
+      "id": "marble-cheesecake",
+      "title": "Marble Cheesecake",
+      "category": "Dessert",
+      "ingredients": [
+        {"item": "Cream cheese", "amount": "500g"},
+        {"item": "Sour cream", "amount": "300g"},
+        {"item": "Caster sugar", "amount": "¾ cup"},
+        {"item": "Eggs", "amount": "3"},
+        {"item": "Dark chocolate", "amount": "100g melted"},
+        {"item": "Butter", "amount": "100g melted (for base)"},
+        {"item": "Digestive biscuits", "amount": "200g crushed (for base)"},
+        {"item": "Vanilla extract", "amount": "½ tsp"}
+      ],
+      "steps": [
+        "Preheat oven to 160°C",
+        "Mix crushed biscuits with melted butter and press into springform pan base",
+        "Process cream cheese, sour cream, and caster sugar until smooth",
+        "Beat in eggs one at a time",
+        "Add vanilla extract",
+        "Transfer 1⅓ cups to separate bowl and mix with melted dark chocolate",
+        "Pour half plain batter into base",
+        "Dollop half chocolate batter on top",
+        "Pour remaining plain batter",
+        "Dollop remaining chocolate batter",
+        "Swirl with a knife for marbled effect",
+        "Bake for 1 hour until center is just set",
+        "Cool completely in oven with door propped open",
+        "Refrigerate overnight before serving"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-02-05",
+      "tags": ["dessert", "baking", "chocolate"]
+    },
+    {
+      "id": "garlic-chilli-prawns",
+      "title": "Garlic Chilli Prawns",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Fresh prawns", "amount": "600g"},
+        {"item": "Sea salt", "amount": "Pinch"},
+        {"item": "Garlic cloves", "amount": "200g"},
+        {"item": "Extra virgin olive oil", "amount": "50ml"},
+        {"item": "Red chillies", "amount": "2-3"},
+        {"item": "Lemon", "amount": "1"},
+        {"item": "Sourdough bread", "amount": "For serving"},
+        {"item": "Olive oil", "amount": "100ml"}
+      ],
+      "steps": [
+        "Blanch whole chillies and garlic cloves in water for 20 minutes",
+        "Drain and blend with 50ml olive oil and lime juice until smooth",
+        "Heat 100ml olive oil in wide pan until very hot",
+        "Fry prawns for 2-3 minutes until starting to color",
+        "Add chilli-garlic sauce and simmer for 2 minutes",
+        "Serve with sourdough and fresh lemon wedges"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-02-06",
+      "tags": ["seafood", "main", "garlic"]
+    },
+    {
+      "id": "octopus-carpaccio",
+      "title": "Octopus Carpaccio",
+      "category": "Finger Food",
+      "ingredients": [
+        {"item": "Whole octopus", "amount": "1.5kg"},
+        {"item": "Yellow onion", "amount": "1"},
+        {"item": "Celery stalks", "amount": "2"},
+        {"item": "Carrot", "amount": "1"},
+        {"item": "Black peppercorns", "amount": "4"},
+        {"item": "Juniper berries", "amount": "3"},
+        {"item": "Bay leaves", "amount": "2"},
+        {"item": "Lemon juice", "amount": "3 tbsp"},
+        {"item": "Extra virgin olive oil", "amount": "2 tbsp"},
+        {"item": "Sea salt and pepper", "amount": "To taste"},
+        {"item": "Fresh parsley", "amount": "For garnish"}
+      ],
+      "steps": [
+        "Boil water with aromatics (onion, celery, carrot, peppercorns, juniper, bay leaves)",
+        "Dip octopus tentacles into boiling water 4-5 times until tender",
+        "Simmer gently for 70-90 minutes until very tender",
+        "Compress cooked octopus in glass bottle and refrigerate 24 hours",
+        "Slice tentacles 1-4mm thick",
+        "Dress with lemon juice, olive oil, sea salt, and pepper",
+        "Garnish with fresh parsley and serve as appetizer"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-02-07",
+      "tags": ["italian", "seafood", "appetizer"]
+    },
+    {
+      "id": "jollof-fried-chicken",
+      "title": "Jollof Fried Chicken",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Chicken breasts", "amount": "4, cut in strips"},
+        {"item": "Buttermilk", "amount": "250ml"},
+        {"item": "Rapeseed oil", "amount": "1 tbsp"},
+        {"item": "Cornflour", "amount": "½ cup"},
+        {"item": "Sea salt", "amount": "1 tsp"},
+        {"item": "Black pepper", "amount": "½ tsp"},
+        {"item": "Cubeb pepper", "amount": "½ tsp"},
+        {"item": "Garlic powder", "amount": "1 tsp"},
+        {"item": "Ground onion", "amount": "1 tsp"},
+        {"item": "Paprika", "amount": "½ tsp"}
+      ],
+      "steps": [
+        "Marinate chicken strips in buttermilk and Jollof spice mix for 1-2 hours (overnight preferred)",
+        "Mix cornflour with all seasonings",
+        "Coat marinated chicken pieces in cornflour mixture",
+        "Heat oil in deep pan until hot",
+        "Fry chicken for 3-4 minutes until golden and cooked through",
+        "Drain on paper towels and serve hot"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-02-08",
+      "tags": ["african", "fried", "chicken"]
+    },
+    {
+      "id": "smoked-pork-porchetta",
+      "title": "Smoked Pork Porchetta Roll",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Pork middle", "amount": "4 pounds"},
+        {"item": "Sea salt", "amount": "3 tbsp"},
+        {"item": "Black pepper", "amount": "1 tsp"},
+        {"item": "Yellow onions", "amount": "7, julienned"},
+        {"item": "Balsamic vinegar", "amount": "¾ cup"},
+        {"item": "Fresh arugula", "amount": "4 cups"},
+        {"item": "Garlic powder", "amount": "1 tsp"},
+        {"item": "Lemon zest", "amount": "1 tsp"},
+        {"item": "Olive oil", "amount": "1 tbsp"}
+      ],
+      "steps": [
+        "Season pork middle generously with sea salt, pepper, and garlic powder",
+        "Roll pork around julienned onions and tie securely with butcher's twine",
+        "Smoke or slow roast until internal temperature reaches 160°C",
+        "Caramelize remaining onions with balsamic vinegar until syrupy",
+        "Toss arugula with lemon zest, lemon juice, and olive oil",
+        "Slice porchetta and serve with caramelized onions and arugula salad"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-02-09",
+      "tags": ["christmas", "pork", "festive"]
+    },
+    {
+      "id": "pan-seared-scallops-butternut",
+      "title": "Pan-Seared Scallops with Butternut Purée",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Large scallops", "amount": "12"},
+        {"item": "Butternut squash", "amount": "1"},
+        {"item": "Butter", "amount": "4 tbsp"},
+        {"item": "Fresh herbs", "amount": "Thyme and sage"},
+        {"item": "Garlic cloves", "amount": "4"},
+        {"item": "Salt and pepper", "amount": "To taste"},
+        {"item": "Olive oil", "amount": "2 tbsp"},
+        {"item": "Red cabbage", "amount": "2 cups shredded"},
+        {"item": "Pomegranate seeds", "amount": "½ cup"},
+        {"item": "Roasted hazelnuts", "amount": "⅓ cup"},
+        {"item": "Fresh mint", "amount": "Handful"},
+        {"item": "Lemon", "amount": "1"},
+        {"item": "Quince paste", "amount": "2 tbsp"},
+        {"item": "Shallot", "amount": "1, minced"},
+        {"item": "Apple cider vinegar", "amount": "2 tbsp"}
+      ],
+      "steps": [
+        "Roast butternut squash at 200°C for 45 minutes to 1 hour until tender",
+        "Blend roasted squash with butter and herbs into smooth purée",
+        "Make vinaigrette: whisk quince paste, shallot, apple cider vinegar, and olive oil",
+        "Toss shredded cabbage with half the vinaigrette",
+        "Toss slaw with pomegranate seeds, hazelnuts, and fresh mint",
+        "Season scallops with salt and pepper",
+        "Sear scallops in hot oil for 2 minutes per side until golden",
+        "Plate with butternut purée, slaw, and remaining vinaigrette"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-02-10",
+      "tags": ["christmas", "seafood", "elegant"]
+    },
+    {
+      "id": "chinese-black-bean-oil",
+      "title": "Chinese Black Bean Oil",
+      "category": "Sauce",
+      "ingredients": [
+        {"item": "Dried black beans", "amount": "100g"},
+        {"item": "Garlic cloves", "amount": "150g"},
+        {"item": "Spring onions", "amount": "3"},
+        {"item": "Fresh ginger", "amount": "2 tbsp minced"},
+        {"item": "Sugar", "amount": "1 tbsp"},
+        {"item": "Chicken powder", "amount": "1 tsp"},
+        {"item": "Neutral oil", "amount": "125ml"}
+      ],
+      "steps": [
+        "Dry roast black beans in pan over medium heat (no oil or water) until fragrant, about 5 minutes",
+        "Heat oil in separate pot until shimmering",
+        "Add peeled garlic cloves and cook on high heat until beginning to brown, then reduce to low",
+        "Continue cooking garlic on low heat until golden brown and crispy, about 15-20 minutes",
+        "Add minced ginger and sliced spring onion",
+        "Stir in roasted black beans",
+        "Add chicken powder and sugar",
+        "Cool completely before storing in glass jar",
+        "Use as condiment for dumplings, noodles, or rice"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-02-11",
+      "tags": ["chinese", "sauce", "condiment"]
+    },
+    {
+      "id": "hunan-stir-fried-pork",
+      "title": "湖南小炒肉 (Hunan Stir-Fried Pork)",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Pork belly", "amount": "100g thin sliced"},
+        {"item": "Lean pork", "amount": "100g thin sliced"},
+        {"item": "Red chillies", "amount": "100g"},
+        {"item": "Garlic cloves", "amount": "Small handful"},
+        {"item": "Vegetable oil", "amount": "5g"},
+        {"item": "Sea salt", "amount": "2g"},
+        {"item": "Steamed fish soy sauce", "amount": "1ml"},
+        {"item": "Homemade seasoning powder", "amount": "Small pinch"}
+      ],
+      "steps": [
+        "Use quick knife technique to slice red chillies into rings, set aside",
+        "Slice pork belly and lean pork very thin",
+        "Dry fry chilli slices on medium heat without oil until soft and fragrant, about 3-4 minutes",
+        "Heat oil in wok or large pan over high heat",
+        "Add minced garlic and stir briefly",
+        "Add pork belly and stir fry until fat renders and meat begins to color",
+        "Add lean pork and stir fry until color changes",
+        "Add the dry fried chillies and stir fry together for 2 minutes",
+        "Season with sea salt and homemade seasoning powder",
+        "Add steamed fish soy sauce and serve immediately"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-02-12",
+      "tags": ["chinese", "pork", "hunan", "spicy"]
+    },
+    {
+      "id": "stir-fried-beef-peppers",
+      "title": "炒牛肉 (Stir-Fried Beef with Peppers)",
+      "category": "Main",
+      "ingredients": [
+        {"item": "Beef sirloin", "amount": "150g thin sliced"},
+        {"item": "Green and red peppers", "amount": "100g"},
+        {"item": "Ginger and garlic", "amount": "Small handful"},
+        {"item": "Homemade spicy beef sauce", "amount": "2g"},
+        {"item": "Seasoning powder", "amount": "2g"},
+        {"item": "Sea salt", "amount": "2g"},
+        {"item": "Cooking wine", "amount": "5ml"},
+        {"item": "Vegetable oil", "amount": "5g"},
+        {"item": "Egg white", "amount": "1"},
+        {"item": "Oyster sauce", "amount": "2ml"}
+      ],
+      "steps": [
+        "Slice beef thin and marinate with cooking wine, minced ginger, egg white, and oyster sauce for 30 minutes",
+        "Cut peppers into rings or chunks",
+        "Slide marinated beef in hot oil for about 2 minutes until lightly cooked, remove and set aside",
+        "Add minced ginger and garlic to pan and stir fry until fragrant",
+        "Add spicy beef sauce and fry until red oil appears",
+        "Return beef to pan with pepper pieces",
+        "Season with seasoning powder and sea salt",
+        "Stir fry on high heat for 2 minutes until peppers are slightly softened",
+        "Taste and adjust seasoning, serve immediately"
+      ],
+      "source": "Family Collection",
+      "dateAdded": "2024-02-13",
+      "tags": ["chinese", "beef", "hunan", "spicy"]
+    }
+  ]
+}
