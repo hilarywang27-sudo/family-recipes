@@ -183,6 +183,9 @@ body{
 
 /* ===== TOAST ===== */
 .toast{position:fixed;bottom:calc(90px + var(--safe-bottom));left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%);background:var(--text);color:#fff;padding:12px 24px;border-radius:var(--r);font-size:14px;font-family:var(--font);z-index:200;-webkit-animation:toastIn 0.3s ease,toastOut 0.3s ease 2.7s forwards;animation:toastIn 0.3s ease,toastOut 0.3s ease 2.7s forwards;box-shadow:var(--shadow2);max-width:calc(100vw - 32px);text-align:center}
+.spinner{width:20px;height:20px;border:3px solid var(--bg4);border-top-color:var(--accent);border-radius:50%;-webkit-animation:spin 0.8s linear infinite;animation:spin 0.8s linear infinite}
+@-webkit-keyframes spin{to{-webkit-transform:rotate(360deg)}}
+@keyframes spin{to{transform:rotate(360deg)}}
 @-webkit-keyframes toastIn{from{opacity:0;-webkit-transform:translateX(-50%) translateY(20px)}to{opacity:1;-webkit-transform:translateX(-50%) translateY(0)}}
 @keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
 @-webkit-keyframes toastOut{to{opacity:0;-webkit-transform:translateX(-50%) translateY(20px)}}
@@ -251,6 +254,7 @@ body{
   <div class="toolbar">
     <button class="btn-tool btn-import" id="importBtn" type="button">📥 Import</button>
     <button class="btn-tool" id="exportBtn" type="button">📤 Export</button>
+    <button class="btn-tool" id="settingsBtn" type="button">⚙️ Settings</button>
   </div>
 
   <!-- CATEGORY PILLS -->
@@ -375,35 +379,40 @@ body{
           <div class="drop-zone-hint">.mp4, .mov, .webm, .mp3, .m4a, .wav</div>
           <input type="file" id="mediaFileInput" accept="video/*,audio/*,.mp4,.mov,.webm,.mp3,.m4a,.wav,.ogg" style="display:none">
         </div>
-        <div id="mediaPlayerWrap" style="display:none">
-          <div class="video-container" id="videoContainer">
-            <video id="videoPlayer" controls playsinline webkit-playsinline preload="metadata"></video>
-          </div>
-          <div id="audioContainer" style="display:none;margin-bottom:16px">
-            <audio id="audioPlayer" controls preload="metadata" style="width:100%"></audio>
-          </div>
-          <div id="mediaFileName" style="font-size:13px;color:var(--text3);margin-bottom:12px"></div>
-        </div>
         <div style="margin-bottom:16px">
-          <label class="form-label">Or paste a YouTube URL</label>
+          <label class="form-label">Or paste a video URL (YouTube, etc.)</label>
           <div style="display:flex;gap:8px">
-            <input type="url" class="form-input" id="videoUrlInput" placeholder="https://youtube.com/watch?v=..." autocomplete="off" style="flex:1">
-            <button type="button" class="btn-primary" onclick="loadVideoUrl()" style="flex-shrink:0">Load</button>
+            <input type="url" class="form-input" id="videoUrlInput" placeholder="https://youtube.com/watch?v=..." autocomplete="off" style="flex:1;font-size:16px">
+            <button type="button" class="btn-primary" onclick="handleVideoUrl()" style="flex-shrink:0">Extract</button>
           </div>
         </div>
-        <div id="youtubeEmbed" style="display:none;margin-bottom:16px">
-          <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:var(--r);overflow:hidden">
-            <iframe id="youtubeIframe" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
+        <div id="mediaStatus" style="display:none;margin-bottom:16px">
+          <div style="display:flex;align-items:center;gap:10px;padding:14px;background:var(--bg3);border-radius:var(--r)">
+            <div id="mediaSpinner" class="spinner" style="display:none"></div>
+            <div style="flex:1">
+              <div id="mediaStatusText" style="font-size:14px;color:var(--text)">Ready</div>
+              <div id="mediaFileNameDisplay" style="font-size:12px;color:var(--text3);margin-top:2px"></div>
+            </div>
+          </div>
+          <div id="mediaProgress" style="margin-top:8px;display:none">
+            <div style="height:4px;background:var(--bg4);border-radius:2px;overflow:hidden">
+              <div id="mediaProgressBar" style="height:100%;background:var(--accent);width:0%;transition:width 0.3s ease"></div>
+            </div>
           </div>
         </div>
-        <div class="tip-box tip-blue" style="margin-bottom:12px">
-          💡 <strong>Tip:</strong> Play the media above, then type or paste the recipe content below. The app will auto-convert it into a formatted recipe.
+        <div id="transcriptResult" style="display:none;margin-bottom:16px">
+          <label class="form-label">Extracted Transcript</label>
+          <textarea class="form-textarea" id="mediaRecipeText" rows="8" style="font-size:14px"></textarea>
+          <div style="display:flex;gap:8px;margin-top:10px">
+            <button type="button" class="btn-primary" onclick="smartParseAndOpen(document.getElementById('mediaRecipeText').value,'media')" style="flex:1">✨ Convert to Recipe</button>
+            <button type="button" class="btn-tool" onclick="resetMediaImport()">Clear</button>
+          </div>
         </div>
-        <div class="form-group">
-          <label class="form-label">Type or paste recipe content from video/audio</label>
-          <textarea class="form-textarea" id="mediaRecipeText" rows="8" placeholder="Type the recipe as you watch/listen...&#10;&#10;Example:&#10;Ingredients: 500g pork belly, 2 tbsp soy sauce...&#10;Steps: Cut pork into pieces. Heat oil in wok..."></textarea>
+        <div id="mediaNoKeyMsg" style="display:none;margin-bottom:12px">
+          <div class="tip-box tip-gold">
+            ⚠️ <strong>API key required.</strong> Go to Settings and enter your OpenAI API key to enable automatic transcription from video/audio files.
+          </div>
         </div>
-        <button type="button" class="btn-primary" onclick="smartParseAndOpen(document.getElementById('mediaRecipeText').value,'media')">✨ Auto-Convert to Recipe</button>
       </div>
 
       <!-- NOTE IMPORT -->
@@ -447,6 +456,16 @@ body{
       <button class="modal-close" type="button" onclick="closeModal('settingsModal')">✕</button>
     </div>
     <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">AI Transcription (OpenAI Whisper)</label>
+        <p style="font-size:13px;color:var(--text3);margin-bottom:8px">Enter your OpenAI API key to enable automatic recipe extraction from video/audio files and YouTube links.</p>
+        <input type="password" class="form-input" id="openaiKeyInput" placeholder="sk-..." autocomplete="off" style="font-size:16px">
+        <div style="display:flex;gap:8px;margin-top:8px;align-items:center">
+          <button type="button" class="btn-tool" onclick="saveApiKey()">💾 Save Key</button>
+          <span id="apiKeyStatus" style="font-size:13px;color:var(--green)"></span>
+        </div>
+        <p style="font-size:12px;color:var(--text3);margin-top:6px">Key is stored locally on your device only. Get one at <a href="https://platform.openai.com/api-keys" target="_blank" style="color:var(--blue)">platform.openai.com</a></p>
+      </div>
       <div class="form-group">
         <label class="form-label">Data</label>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
@@ -952,40 +971,302 @@ function resetDocImport() {
 // ==========================================
 // IMPORT: Video / Audio (MP4, MP3, etc.)
 // ==========================================
-function handleMediaFile(file) {
-  var url = URL.createObjectURL(file);
-  var isAudio = /\.(mp3|m4a|wav|ogg|aac|wma)$/i.test(file.name);
-
-  document.getElementById('mediaPlayerWrap').style.display = 'block';
-  document.getElementById('mediaDropZone').style.display = 'none';
-  document.getElementById('mediaFileName').textContent = '📁 ' + file.name;
-
-  if (isAudio) {
-    document.getElementById('videoContainer').style.display = 'none';
-    document.getElementById('audioContainer').style.display = 'block';
-    document.getElementById('audioPlayer').src = url;
-  } else {
-    document.getElementById('audioContainer').style.display = 'none';
-    document.getElementById('videoContainer').style.display = 'block';
-    document.getElementById('videoPlayer').src = url;
+function getApiKey() {
+  try { return localStorage.getItem('openai_api_key') || ''; } catch(e) { return ''; }
+}
+function saveApiKey() {
+  var key = document.getElementById('openaiKeyInput').value.trim();
+  if (!key) { toast('Please enter a key'); return; }
+  try { localStorage.setItem('openai_api_key', key); } catch(e) {}
+  document.getElementById('apiKeyStatus').textContent = '✓ Key saved';
+  toast('API key saved!');
+}
+function loadApiKeyToSettings() {
+  var key = getApiKey();
+  if (key) {
+    document.getElementById('openaiKeyInput').value = key;
+    document.getElementById('apiKeyStatus').textContent = '✓ Key saved';
   }
-  state.importFileName = file.name;
-  toast('Media loaded! Play it and type the recipe below.');
 }
 
-function loadVideoUrl() {
+function showMediaStatus(text, showSpinner) {
+  document.getElementById('mediaStatus').style.display = 'block';
+  document.getElementById('mediaStatusText').textContent = text;
+  document.getElementById('mediaSpinner').style.display = showSpinner ? 'block' : 'none';
+}
+function setMediaProgress(pct) {
+  document.getElementById('mediaProgress').style.display = 'block';
+  document.getElementById('mediaProgressBar').style.width = pct + '%';
+}
+function resetMediaImport() {
+  document.getElementById('mediaDropZone').style.display = 'block';
+  document.getElementById('mediaStatus').style.display = 'none';
+  document.getElementById('mediaProgress').style.display = 'none';
+  document.getElementById('transcriptResult').style.display = 'none';
+  document.getElementById('mediaRecipeText').value = '';
+  document.getElementById('videoUrlInput').value = '';
+  document.getElementById('mediaFileNameDisplay').textContent = '';
+  document.getElementById('mediaNoKeyMsg').style.display = 'none';
+  document.getElementById('mediaProgressBar').style.width = '0%';
+}
+
+function handleMediaFile(file) {
+  var key = getApiKey();
+  if (!key) {
+    document.getElementById('mediaNoKeyMsg').style.display = 'block';
+    toast('Please add your OpenAI API key in Settings first');
+    return;
+  }
+  state.importFileName = file.name;
+  document.getElementById('mediaDropZone').style.display = 'none';
+  document.getElementById('mediaFileNameDisplay').textContent = file.name;
+  showMediaStatus('Transcribing audio... This may take a moment.', true);
+  setMediaProgress(30);
+  transcribeWithWhisper(file);
+}
+
+function transcribeWithWhisper(file) {
+  var key = getApiKey();
+  var formData = new FormData();
+  formData.append('file', file);
+  formData.append('model', 'whisper-1');
+  formData.append('response_format', 'text');
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', 'https://api.openai.com/v1/audio/transcriptions', true);
+  xhr.setRequestHeader('Authorization', 'Bearer ' + key);
+  xhr.timeout = 300000; // 5 min for large files
+
+  xhr.upload.onprogress = function(e) {
+    if (e.lengthComputable) {
+      var pct = Math.round((e.loaded / e.total) * 60) + 20;
+      setMediaProgress(pct);
+    }
+  };
+
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      setMediaProgress(100);
+      showMediaStatus('Transcription complete!', false);
+      var transcript = xhr.responseText;
+      document.getElementById('mediaRecipeText').value = transcript;
+      document.getElementById('transcriptResult').style.display = 'block';
+      toast('Transcription complete! Review and convert to recipe.');
+    } else {
+      var errMsg = 'Transcription failed';
+      try {
+        var err = JSON.parse(xhr.responseText);
+        errMsg = err.error ? err.error.message : errMsg;
+      } catch(e) {}
+      showMediaStatus('Error: ' + errMsg, false);
+      toast(errMsg);
+    }
+  };
+  xhr.onerror = function() {
+    showMediaStatus('Network error. Check your connection.', false);
+    toast('Network error during transcription');
+  };
+  xhr.ontimeout = function() {
+    showMediaStatus('Transcription timed out. Try a shorter file.', false);
+    toast('Transcription timed out');
+  };
+  xhr.send(formData);
+}
+
+function handleVideoUrl() {
   var url = document.getElementById('videoUrlInput').value.trim();
   if (!url) { toast('Please enter a URL'); return; }
+
   var ytMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/);
   if (ytMatch) {
-    document.getElementById('youtubeIframe').src = 'https://www.youtube.com/embed/' + ytMatch[1];
-    document.getElementById('youtubeEmbed').style.display = 'block';
-    toast('YouTube video loaded!');
+    extractYouTubeRecipe(ytMatch[1]);
   } else {
-    document.getElementById('videoContainer').style.display = 'block';
-    document.getElementById('videoPlayer').src = url;
-    document.getElementById('mediaPlayerWrap').style.display = 'block';
+    // For non-YouTube URLs, try to fetch as media and transcribe
+    var key = getApiKey();
+    if (!key) {
+      document.getElementById('mediaNoKeyMsg').style.display = 'block';
+      toast('API key needed for non-YouTube URLs');
+      return;
+    }
+    showMediaStatus('Fetching media from URL...', true);
+    setMediaProgress(10);
+    fetchAndTranscribeUrl(url);
   }
+}
+
+function extractYouTubeRecipe(videoId) {
+  showMediaStatus('Fetching YouTube captions...', true);
+  setMediaProgress(20);
+  document.getElementById('mediaDropZone').style.display = 'none';
+  state.importFileName = 'YouTube-' + videoId;
+
+  // Try multiple caption extraction approaches
+  tryYouTubeCaptions(videoId, function(transcript) {
+    if (transcript && transcript.length > 50) {
+      setMediaProgress(100);
+      showMediaStatus('Captions extracted!', false);
+      document.getElementById('mediaRecipeText').value = transcript;
+      document.getElementById('transcriptResult').style.display = 'block';
+      toast('YouTube captions extracted! Convert to recipe.');
+    } else {
+      // Fallback: no captions available
+      showMediaStatus('No captions found. Trying audio transcription...', true);
+      setMediaProgress(40);
+      transcribeYouTubeAudio(videoId);
+    }
+  });
+}
+
+function tryYouTubeCaptions(videoId, callback) {
+  // Try fetching captions via public innertube API
+  var url = 'https://www.youtube.com/watch?v=' + videoId;
+  // Use a CORS proxy to fetch the page and extract caption tracks
+  var proxyUrls = [
+    'https://corsproxy.io/?' + encodeURIComponent(url),
+    'https://api.allorigins.win/raw?url=' + encodeURIComponent(url)
+  ];
+
+  var attempted = 0;
+  function tryNext() {
+    if (attempted >= proxyUrls.length) {
+      callback(null);
+      return;
+    }
+    var proxyUrl = proxyUrls[attempted];
+    attempted++;
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', proxyUrl, true);
+    xhr.timeout = 15000;
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        var html = xhr.responseText;
+        // Extract caption track URL from YouTube page
+        var captionMatch = html.match(/"captionTracks":\s*(\[.*?\])/);
+        if (captionMatch) {
+          try {
+            var tracks = JSON.parse(captionMatch[1]);
+            // Prefer English or first available track
+            var track = null;
+            for (var i = 0; i < tracks.length; i++) {
+              if (tracks[i].languageCode === 'en') { track = tracks[i]; break; }
+            }
+            if (!track && tracks.length > 0) track = tracks[0];
+            if (track && track.baseUrl) {
+              fetchCaptionXml(track.baseUrl, callback);
+              return;
+            }
+          } catch(e) {}
+        }
+        // Try alternative: timedtext in playerCaptionsTracklistRenderer
+        var ttMatch = html.match(/playerCaptionsTracklistRenderer.*?"baseUrl":"(.*?)"/);
+        if (ttMatch) {
+          var ttUrl = ttMatch[1].replace(/\\u0026/g, '&');
+          fetchCaptionXml(ttUrl, callback);
+          return;
+        }
+      }
+      tryNext();
+    };
+    xhr.onerror = function() { tryNext(); };
+    xhr.ontimeout = function() { tryNext(); };
+    xhr.send();
+  }
+  tryNext();
+}
+
+function fetchCaptionXml(captionUrl, callback) {
+  // Caption URLs from YouTube are absolute and should work without CORS proxy
+  var url = captionUrl;
+  if (url.indexOf('http') !== 0) url = 'https://www.youtube.com' + url;
+
+  // Use proxy for CORS
+  var proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(url);
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', proxyUrl, true);
+  xhr.timeout = 10000;
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      var text = parseCaptionXml(xhr.responseText);
+      callback(text);
+    } else {
+      callback(null);
+    }
+  };
+  xhr.onerror = function() { callback(null); };
+  xhr.ontimeout = function() { callback(null); };
+  xhr.send();
+}
+
+function parseCaptionXml(xml) {
+  // Parse YouTube caption XML: <text start="..." dur="...">content</text>
+  var result = [];
+  var regex = /<text[^>]*>([\s\S]*?)<\/text>/g;
+  var match;
+  while ((match = regex.exec(xml)) !== null) {
+    var t = match[1]
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'")
+      .replace(/<[^>]+>/g, '')
+      .replace(/\n/g, ' ')
+      .trim();
+    if (t) result.push(t);
+  }
+  // Join and clean up repeated spaces
+  return result.join(' ').replace(/\s{2,}/g, ' ').trim();
+}
+
+function transcribeYouTubeAudio(videoId) {
+  // For YouTube, we cannot easily download audio client-side due to CORS
+  // Show fallback message with manual option
+  var key = getApiKey();
+  if (!key) {
+    showMediaStatus('No captions available and no API key set.', false);
+    document.getElementById('mediaNoKeyMsg').style.display = 'block';
+    document.getElementById('transcriptResult').style.display = 'block';
+    document.getElementById('mediaRecipeText').value = '';
+    document.getElementById('mediaRecipeText').placeholder = 'No captions found. You can:\n1. Add your OpenAI API key in Settings\n2. Download the audio and upload it here\n3. Paste the recipe text manually';
+    return;
+  }
+  // Try using a YouTube audio extraction proxy
+  var audioUrl = 'https://corsproxy.io/?' + encodeURIComponent('https://www.youtube.com/watch?v=' + videoId);
+  showMediaStatus('YouTube audio extraction not available from browser. Please download the video/audio file and upload it directly.', false);
+  setMediaProgress(0);
+  document.getElementById('mediaDropZone').style.display = 'block';
+  toast('Please upload the audio/video file directly for transcription');
+}
+
+function fetchAndTranscribeUrl(url) {
+  // Try to fetch media from URL and transcribe
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', url, true);
+  xhr.responseType = 'blob';
+  xhr.timeout = 60000;
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      var blob = xhr.response;
+      var ext = url.split('?')[0].split('.').pop().toLowerCase();
+      var filename = 'media.' + (ext || 'mp4');
+      var file = new File([blob], filename, { type: blob.type || 'audio/mpeg' });
+      setMediaProgress(50);
+      showMediaStatus('Transcribing downloaded audio...', true);
+      transcribeWithWhisper(file);
+    } else {
+      showMediaStatus('Could not fetch media from URL.', false);
+      toast('Failed to fetch media from URL');
+    }
+  };
+  xhr.onerror = function() {
+    showMediaStatus('Network error fetching URL. CORS may be blocking access.', false);
+    toast('Could not access URL (CORS restriction)');
+  };
+  xhr.ontimeout = function() {
+    showMediaStatus('Timed out fetching URL.', false);
+  };
+  xhr.send();
 }
 
 // ==========================================
@@ -1435,6 +1716,11 @@ function setupListeners() {
   document.getElementById('addRecipeBtn').addEventListener('click', openAddForm);
   document.getElementById('importBtn').addEventListener('click', function() { openModal('importModal'); });
   document.getElementById('exportBtn').addEventListener('click', exportRecipes);
+  document.getElementById('settingsBtn').addEventListener('click', function() {
+    document.getElementById('settingsCount').textContent = state.recipes.length + ' recipes stored';
+    loadApiKeyToSettings();
+    openModal('settingsModal');
+  });
 
   // Edit form submit
   document.getElementById('editForm').addEventListener('submit', saveRecipe);
@@ -1495,6 +1781,7 @@ function setupListeners() {
       else if (view === 'import') openModal('importModal');
       else if (view === 'settings') {
         document.getElementById('settingsCount').textContent = state.recipes.length + ' recipes stored';
+        loadApiKeyToSettings();
         openModal('settingsModal');
       }
     });
